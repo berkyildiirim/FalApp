@@ -428,18 +428,39 @@ function falappSupabase() {
     return row;
   }
 
-  sb.from("falcilar")
-    .select("*")
-    .eq("aktif", true)
-    .order("sira", { ascending: true })
-    .then(({ data, error }) => {
-      if (error || !data || data.length === 0) {
-        falciList.innerHTML = '<p class="falci-loading">Şu an falcı listesi yüklenemedi, birazdan tekrar dene.</p>';
-        return;
-      }
-      falciList.innerHTML = "";
-      data.forEach((f) => falciList.appendChild(falciSatiriOlustur(f)));
+  async function gercekPuanlariUygula(falcilar) {
+    const { data: yorumlar } = await sb.from("yorumlar").select("falci_id, puan");
+    if (!yorumlar || yorumlar.length === 0) return falcilar;
+    const toplamlar = {};
+    yorumlar.forEach((y) => {
+      if (!y.falci_id) return;
+      if (!toplamlar[y.falci_id]) toplamlar[y.falci_id] = { toplam: 0, adet: 0 };
+      toplamlar[y.falci_id].toplam += y.puan;
+      toplamlar[y.falci_id].adet += 1;
     });
+    falcilar.forEach((f) => {
+      const t = toplamlar[f.id];
+      if (t && t.adet > 0) {
+        f.puan = (t.toplam / t.adet).toFixed(1);
+        f.yorum_sayisi = t.adet;
+      }
+    });
+    return falcilar;
+  }
+
+  async function falciListesiniYukle() {
+    const { data, error } = await sb.from("falcilar").select("*").eq("aktif", true).order("sira", { ascending: true });
+    if (error || !data || data.length === 0) {
+      falciList.innerHTML = '<p class="falci-loading">Şu an falcı listesi yüklenemedi, birazdan tekrar dene.</p>';
+      return;
+    }
+    const falcilarGuncel = await gercekPuanlariUygula(data);
+    falciList.innerHTML = "";
+    falcilarGuncel.forEach((f) => falciList.appendChild(falciSatiriOlustur(f)));
+  }
+
+  window.__falappFalciYenile = falciListesiniYukle;
+  falciListesiniYukle();
 })();
 
 // ===== Yorumlar (Supabase) =====
@@ -514,6 +535,7 @@ function falappSupabase() {
         if (!confirm("Yorumunu silmek istediğine emin misin?")) return;
         await sb.from("yorumlar").delete().eq("id", y.id);
         yorumlariYukle();
+        if (window.__falappFalciYenile) window.__falappFalciYenile();
       });
       article.querySelector(".review-date").appendChild(silBtn);
     }
@@ -581,6 +603,7 @@ function falappSupabase() {
     mesajGoster(reviewMsg, "Teşekkürler, yorumun eklendi!", "ok");
     reviewForm.reset();
     yorumlariYukle();
+    if (window.__falappFalciYenile) window.__falappFalciYenile();
   });
 
   function oturumDurumunuUygula(session) {
