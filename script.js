@@ -206,11 +206,8 @@ function tarihAnahtari() {
 
 // ===== Üyelik / Giriş (Supabase) =====
 (function () {
-  const SUPABASE_URL = "https://aduzmvshlhmpagpzuyfj.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_tvG0FzD4OdyjTlf8n6rDeQ_VOLpe0S9";
-
   if (typeof window.supabase === "undefined") return;
-  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const sb = window.supabase.createClient(FALAPP_SUPABASE_URL, FALAPP_SUPABASE_ANON_KEY);
 
   const authOpenBtn = document.getElementById("authOpenBtn");
   const authOverlay = document.getElementById("authOverlay");
@@ -226,6 +223,7 @@ function tarihAnahtari() {
   const signupPasswordMsg = document.getElementById("signupPasswordMsg");
   const accountChip = document.getElementById("accountChip");
   const accountGreeting = document.getElementById("accountGreeting");
+  const adminLink = document.getElementById("adminLink");
   const logoutBtn = document.getElementById("logoutBtn");
 
   if (!authOpenBtn || !authOverlay) return;
@@ -303,10 +301,16 @@ function tarihAnahtari() {
       const adSoyad = session.user.user_metadata && session.user.user_metadata.full_name;
       const ilkAd = adSoyad ? adSoyad.trim().split(" ")[0] : "";
       accountGreeting.textContent = ilkAd ? ("Hoş geldin, " + ilkAd) : (session.user.email || "");
+      if (adminLink) {
+        sb.from("profiles").select("is_admin").eq("id", session.user.id).maybeSingle()
+          .then(({ data }) => { adminLink.hidden = !(data && data.is_admin); })
+          .catch(() => { adminLink.hidden = true; });
+      }
     } else {
       authOpenBtn.hidden = false;
       accountChip.hidden = true;
       accountGreeting.textContent = "";
+      if (adminLink) adminLink.hidden = true;
     }
   }
 
@@ -384,4 +388,47 @@ function tarihAnahtari() {
   sb.auth.getSession().then(({ data }) => {
     girisDurumunuGuncelle(data.session);
   });
+})();
+
+// ===== Falcılar listesi (Supabase'ten) =====
+(function () {
+  const falciList = document.getElementById("falciList");
+  if (!falciList || typeof window.supabase === "undefined") return;
+  const sb = window.supabase.createClient(FALAPP_SUPABASE_URL, FALAPP_SUPABASE_ANON_KEY);
+
+  function falciSatiriOlustur(f) {
+    const durumHtml = f.durum === "musait"
+      ? '<span class="dot dot-live"></span> Müsait'
+      : '<span class="dot dot-busy"></span> ' + (f.bekleme_notu || "Meşgul");
+
+    const row = document.createElement("div");
+    row.className = "falci-row";
+    row.innerHTML = `
+      <div class="avatar" style="--hue:${f.avatar_hue || 0}">${f.avatar_kisaltma || "?"}</div>
+      <div class="falci-info">
+        <strong></strong>
+        <span></span>
+      </div>
+      <div class="falci-rating">★ ${f.puan || "5.0"} <span>(${f.yorum_sayisi || 0})</span></div>
+      <div class="falci-status">${durumHtml}</div>
+      <a class="btn btn-ghost" href="${f.iletisim_link || '#'}" target="_blank" rel="noopener"></a>
+    `;
+    row.querySelector(".falci-info strong").textContent = f.ad || "";
+    row.querySelector(".falci-info span").textContent = (f.uzmanlik || "") + " · " + (f.deneyim_yili || 0) + " yıl deneyim";
+    row.querySelector(".btn-ghost").textContent = f.buton_metni || "Yaz";
+    return row;
+  }
+
+  sb.from("falcilar")
+    .select("*")
+    .eq("aktif", true)
+    .order("sira", { ascending: true })
+    .then(({ data, error }) => {
+      if (error || !data || data.length === 0) {
+        falciList.innerHTML = '<p class="falci-loading">Şu an falcı listesi yüklenemedi, birazdan tekrar dene.</p>';
+        return;
+      }
+      falciList.innerHTML = "";
+      data.forEach((f) => falciList.appendChild(falciSatiriOlustur(f)));
+    });
 })();

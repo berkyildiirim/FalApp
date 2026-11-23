@@ -29,6 +29,7 @@
         <span class="auth-btn-short">Giriş</span>
       </button>
       <div class="account-chip" id="accountChip" hidden>
+        <a class="btn-link" href="admin.html" id="adminLink" hidden>Admin</a>
         <span id="accountGreeting"></span>
         <button class="btn-link" id="logoutBtn" type="button">Çıkış yap</button>
       </div>
@@ -220,52 +221,8 @@
       <h2>Bugün müsait falcılar</h2>
       <p class="section-sub">Hepsi kimlik doğrulamasından geçmiş, gerçek kişiler. Otomatik yanıt yok.</p>
 
-      <div class="falci-list">
-
-        <div class="falci-row">
-          <div class="avatar" style="--hue:28">AH</div>
-          <div class="falci-info">
-            <strong>Ayşe H.</strong>
-            <span>Kahve falı · 7 yıl deneyim</span>
-          </div>
-          <div class="falci-rating">★ 4.9 <span>(238)</span></div>
-          <div class="falci-status"><span class="dot dot-live"></span> Müsait</div>
-          <a class="btn btn-ghost" href="https://wa.me/905555555555" target="_blank" rel="noopener">Yaz</a>
-        </div>
-
-        <div class="falci-row">
-          <div class="avatar" style="--hue:255">MK</div>
-          <div class="falci-info">
-            <strong>Mert K.</strong>
-            <span>Tarot · 4 yıl deneyim</span>
-          </div>
-          <div class="falci-rating">★ 4.8 <span>(161)</span></div>
-          <div class="falci-status"><span class="dot dot-live"></span> Müsait</div>
-          <a class="btn btn-ghost" href="https://wa.me/905555555555" target="_blank" rel="noopener">Yaz</a>
-        </div>
-
-        <div class="falci-row">
-          <div class="avatar" style="--hue:12">SD</div>
-          <div class="falci-info">
-            <strong>Selin D.</strong>
-            <span>El falı · 10 yıl deneyim</span>
-          </div>
-          <div class="falci-rating">★ 5.0 <span>(94)</span></div>
-          <div class="falci-status"><span class="dot dot-busy"></span> 12 dk sonra müsait</div>
-          <a class="btn btn-ghost" href="https://wa.me/905555555555" target="_blank" rel="noopener">Sıraya gir</a>
-        </div>
-
-        <div class="falci-row">
-          <div class="avatar" style="--hue:170">BT</div>
-          <div class="falci-info">
-            <strong>Burcu T.</strong>
-            <span>Kahve falı · Tarot · 5 yıl deneyim</span>
-          </div>
-          <div class="falci-rating">★ 4.7 <span>(302)</span></div>
-          <div class="falci-status"><span class="dot dot-live"></span> Müsait</div>
-          <a class="btn btn-ghost" href="https://wa.me/905555555555" target="_blank" rel="noopener">Yaz</a>
-        </div>
-
+      <div class="falci-list" id="falciList">
+        <p class="falci-loading" id="falciLoading">Falcılar yükleniyor...</p>
       </div>
     </div>
   </section>
@@ -413,6 +370,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase-config.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
