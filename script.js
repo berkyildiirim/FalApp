@@ -418,7 +418,7 @@ function falappSupabase() {
         <strong></strong>
         <span></span>
       </div>
-      <div class="falci-rating">★ ${f.puan || "5.0"} <span>(${f.yorum_sayisi || 0})</span></div>
+      <div class="falci-rating">★ ${f.puan || "5.0"} <span>(${f.yorum_sayisi || 0} yorum)</span></div>
       <div class="falci-status">${durumHtml}</div>
       <a class="btn btn-ghost" href="${f.iletisim_link || '#'}" target="_blank" rel="noopener"></a>
     `;

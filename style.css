@@ -280,7 +280,30 @@ a { color: inherit; }
 /* ===== Hero ===== */
 .hero {
   padding: 56px 0 64px;
+  position: relative;
+  overflow: hidden;
 }
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -180px;
+  right: -120px;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(201,138,62,0.16) 0%, rgba(201,138,62,0) 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: -220px;
+  left: -160px;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(139,152,232,0.12) 0%, rgba(139,152,232,0) 70%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; }
 .hero-inner {
   display: grid;
   gap: 40px;
@@ -322,6 +345,7 @@ a { color: inherit; }
   padding: 22px;
   max-width: 320px;
   justify-self: start;
+  box-shadow: 0 24px 60px -24px rgba(0,0,0,0.55);
 }
 .hero-card-top {
   display: flex;
@@ -542,12 +566,16 @@ section h2 {
   flex-wrap: wrap;
   gap: 14px;
   padding: 16px 18px;
+  transition: background 0.15s ease;
 }
+.falci-row:hover { background: var(--surface-2); }
 .falci-info { display: flex; flex-direction: column; min-width: 0; flex: 1 1 140px; order: 1; }
 .falci-info span { color: var(--text-muted); font-size: 13.5px; }
 .falci-rating {
   display: none;
   order: 2;
+  align-items: center;
+  gap: 5px;
   color: var(--brass-soft);
   font-size: 14px;
   white-space: nowrap;
@@ -608,12 +636,13 @@ section h2 {
 .pricing { border-top: 1px solid var(--border); }
 .price-box {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--brass);
   border-radius: var(--radius);
   padding: 28px;
   display: grid;
   gap: 24px;
   margin-bottom: 36px;
+  box-shadow: 0 24px 60px -28px rgba(201,138,62,0.35);
 }
 .price-main { display: flex; flex-direction: column; gap: 8px; }
 .price-amount {
