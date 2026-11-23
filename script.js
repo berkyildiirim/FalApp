@@ -441,3 +441,161 @@ function falappSupabase() {
       data.forEach((f) => falciList.appendChild(falciSatiriOlustur(f)));
     });
 })();
+
+// ===== Yorumlar (Supabase) =====
+(function () {
+  const reviewList = document.getElementById("reviewList");
+  const sb = falappSupabase();
+  if (!reviewList || !sb) return;
+
+  const reviewWriteBox = document.getElementById("reviewWriteBox");
+  const reviewLoginHint = document.getElementById("reviewLoginHint");
+  const reviewLoginBtn = document.getElementById("reviewLoginBtn");
+  const reviewForm = document.getElementById("reviewForm");
+  const reviewFalciId = document.getElementById("reviewFalciId");
+  const reviewPuan = document.getElementById("reviewPuan");
+  const reviewYorum = document.getElementById("reviewYorum");
+  const reviewMsg = document.getElementById("reviewMsg");
+
+  let mevcutOturum = null;
+
+  function mesajGoster(el, metin, tur) {
+    el.textContent = metin;
+    el.classList.remove("error", "ok");
+    if (tur) el.classList.add(tur);
+  }
+
+  function adSoyadKisalt(adSoyad) {
+    if (!adSoyad) return "Üye";
+    const parcalar = adSoyad.trim().split(/\s+/);
+    if (parcalar.length === 1) return parcalar[0];
+    const soyadHarfi = parcalar[parcalar.length - 1][0].toUpperCase();
+    return parcalar.slice(0, -1).join(" ") + " " + soyadHarfi + ".";
+  }
+
+  function goreliTarih(iso) {
+    const farkGun = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
+    if (farkGun <= 0) return "Bugün";
+    if (farkGun === 1) return "1 gün önce";
+    if (farkGun < 7) return farkGun + " gün önce";
+    if (farkGun < 35) return Math.floor(farkGun / 7) + " hafta önce";
+    if (farkGun < 365) return Math.floor(farkGun / 30) + " ay önce";
+    return Math.floor(farkGun / 365) + " yıl önce";
+  }
+
+  function yildizGoster(puan) {
+    return "★".repeat(puan) + "☆".repeat(5 - puan);
+  }
+
+  function yorumKartiOlustur(y) {
+    const article = document.createElement("article");
+    article.className = "review" + (y.puan <= 2 ? " review-negative" : "");
+    const falciAdi = y.falcilar && y.falcilar.ad ? " · " + y.falcilar.ad : "";
+
+    article.innerHTML = `
+      <div class="review-head">
+        <strong></strong>
+        <span class="stars"></span>
+      </div>
+      <p></p>
+      <span class="review-date"></span>
+    `;
+    article.querySelector("strong").textContent = y.yazar_adi + falciAdi;
+    article.querySelector(".stars").textContent = yildizGoster(y.puan);
+    article.querySelector("p").textContent = y.yorum;
+    article.querySelector(".review-date").textContent = goreliTarih(y.created_at);
+
+    if (mevcutOturum && mevcutOturum.user.id === y.user_id) {
+      const silBtn = document.createElement("button");
+      silBtn.className = "review-own-delete";
+      silBtn.type = "button";
+      silBtn.textContent = "Yorumunu sil";
+      silBtn.addEventListener("click", async () => {
+        if (!confirm("Yorumunu silmek istediğine emin misin?")) return;
+        await sb.from("yorumlar").delete().eq("id", y.id);
+        yorumlariYukle();
+      });
+      article.querySelector(".review-date").appendChild(silBtn);
+    }
+
+    if (y.admin_yanit) {
+      const reply = document.createElement("div");
+      reply.className = "review-reply";
+      reply.innerHTML = "<strong>FalApp ekibi:</strong><p></p>";
+      reply.querySelector("p").textContent = y.admin_yanit;
+      article.appendChild(reply);
+    }
+    return article;
+  }
+
+  async function yorumlariYukle() {
+    const { data, error } = await sb
+      .from("yorumlar")
+      .select("*, falcilar(ad)")
+      .order("created_at", { ascending: false })
+      .limit(30);
+    if (error) {
+      reviewList.innerHTML = '<p class="falci-loading">Yorumlar yüklenemedi, birazdan tekrar dene.</p>';
+      return;
+    }
+    if (!data || data.length === 0) {
+      reviewList.innerHTML = '<p class="falci-loading">Henüz yorum yok, ilk yorumu sen yaz.</p>';
+      return;
+    }
+    reviewList.innerHTML = "";
+    data.forEach((y) => reviewList.appendChild(yorumKartiOlustur(y)));
+  }
+
+  async function falciSecenekleriniDoldur() {
+    const { data } = await sb.from("falcilar").select("id, ad").eq("aktif", true).order("sira", { ascending: true });
+    reviewFalciId.innerHTML = '<option value="">Seç...</option>';
+    (data || []).forEach((f) => {
+      const opt = document.createElement("option");
+      opt.value = f.id;
+      opt.textContent = f.ad;
+      reviewFalciId.appendChild(opt);
+    });
+  }
+
+  reviewLoginBtn.addEventListener("click", () => {
+    const authOpenBtn = document.getElementById("authOpenBtn");
+    if (authOpenBtn) authOpenBtn.click();
+  });
+
+  reviewForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!mevcutOturum) return;
+    mesajGoster(reviewMsg, "Gönderiliyor...");
+    const adSoyad = mevcutOturum.user.user_metadata && mevcutOturum.user.user_metadata.full_name;
+    const { error } = await sb.from("yorumlar").insert({
+      falci_id: reviewFalciId.value || null,
+      user_id: mevcutOturum.user.id,
+      yazar_adi: adSoyadKisalt(adSoyad),
+      puan: Number(reviewPuan.value),
+      yorum: reviewYorum.value.trim()
+    });
+    if (error) {
+      mesajGoster(reviewMsg, "Gönderilemedi: " + error.message, "error");
+      return;
+    }
+    mesajGoster(reviewMsg, "Teşekkürler, yorumun eklendi!", "ok");
+    reviewForm.reset();
+    yorumlariYukle();
+  });
+
+  function oturumDurumunuUygula(session) {
+    mevcutOturum = session;
+    if (session && session.user) {
+      reviewLoginHint.hidden = true;
+      reviewForm.hidden = false;
+      falciSecenekleriniDoldur();
+    } else {
+      reviewLoginHint.hidden = false;
+      reviewForm.hidden = true;
+    }
+    yorumlariYukle();
+  }
+
+  sb.auth.onAuthStateChange((_event, session) => oturumDurumunuUygula(session));
+  sb.auth.getSession().then(({ data }) => oturumDurumunuUygula(data.session));
+})();

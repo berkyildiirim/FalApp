@@ -292,39 +292,34 @@
       <h2>Yorumlar</h2>
       <p class="section-sub">Hepsini gösteriyoruz — iyisini de, kötüsünü de.</p>
 
-      <div class="review-list">
+      <div class="review-write-box" id="reviewWriteBox">
+        <p class="review-login-hint" id="reviewLoginHint">Yorum bırakmak için <button class="btn-link" id="reviewLoginBtn" type="button">giriş yap</button>.</p>
 
-        <article class="review">
-          <div class="review-head">
-            <strong>Derya Y.</strong>
-            <span class="stars">★★★★★</span>
-          </div>
-          <p>Ayşe hanım gerçekten çok net anlattı, genel geçer laflar değildi. Fiyatı da baştan söyledi, sürpriz çıkmadı.</p>
-          <span class="review-date">3 hafta önce</span>
-        </article>
+        <form class="review-form" id="reviewForm" hidden>
+          <label>Hangi falcı için?
+            <select id="reviewFalciId" required>
+              <option value="">Seç...</option>
+            </select>
+          </label>
+          <label>Puan
+            <select id="reviewPuan" required>
+              <option value="5">★★★★★ (5)</option>
+              <option value="4">★★★★☆ (4)</option>
+              <option value="3">★★★☆☆ (3)</option>
+              <option value="2">★★☆☆☆ (2)</option>
+              <option value="1">★☆☆☆☆ (1)</option>
+            </select>
+          </label>
+          <label>Yorumun
+            <textarea id="reviewYorum" required minlength="5" rows="3" placeholder="Deneyimini anlat..."></textarea>
+          </label>
+          <p class="auth-msg" id="reviewMsg"></p>
+          <button class="btn btn-primary" type="submit">Yorumu gönder</button>
+        </form>
+      </div>
 
-        <article class="review">
-          <div class="review-head">
-            <strong>Oğuz P.</strong>
-            <span class="stars">★★★★☆</span>
-          </div>
-          <p>Tarot açılımı güzeldi ama 2 dakika bağlantı sorunu yaşadık, o süre için de ücret yazdı. Yine de genel olarak memnun kaldım.</p>
-          <span class="review-date">1 ay önce</span>
-        </article>
-
-        <article class="review review-negative">
-          <div class="review-head">
-            <strong>Nazlı E.</strong>
-            <span class="stars">★★☆☆☆</span>
-          </div>
-          <p>Seçtiğim falcı 10 dakika geç bağlandı, bu süre de sayılmış. Beklediğim gibi geçmedi.</p>
-          <span class="review-date">1 ay önce</span>
-          <div class="review-reply">
-            <strong>FalApp ekibi:</strong>
-            <p>Haklısınız, gecikme süresi ücretlendirilmemeliydi — ücretinizi iade ettik ve falcıyla konuştuk. Yaşattığımız aksaklık için özür dileriz.</p>
-          </div>
-        </article>
-
+      <div class="review-list" id="reviewList">
+        <p class="falci-loading">Yorumlar yükleniyor...</p>
       </div>
     </div>
   </section>

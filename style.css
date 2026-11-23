@@ -683,6 +683,46 @@ section h2 {
 .review-reply strong { font-size: 13.5px; color: var(--moon); }
 .review-reply p { color: var(--text-muted); font-size: 14.5px; margin-top: 4px; }
 
+.review-write-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  margin-bottom: 24px;
+}
+.review-login-hint { margin: 0; color: var(--text-muted); font-size: 15px; }
+.review-form { display: flex; flex-direction: column; gap: 14px; }
+.review-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.review-form input,
+.review-form select,
+.review-form textarea {
+  font-family: var(--sans);
+  font-size: 15px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+}
+.review-form button { align-self: flex-start; }
+.review-own-delete {
+  margin-left: 10px;
+  background: none;
+  border: none;
+  color: #e07a6b;
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
 /* ===== Burç ===== */
 .horoscope { border-top: 1px solid var(--border); text-align: center; }
 .horoscope .section-sub { max-width: 46ch; margin-left: auto; margin-right: auto; }
