@@ -431,6 +431,32 @@ section h2 {
 .review-reply strong { font-size: 13.5px; color: var(--moon); }
 .review-reply p { color: var(--text-muted); font-size: 14.5px; margin-top: 4px; }
 
+/* ===== FAQ ===== */
+.faq { border-top: 1px solid var(--border); }
+.faq-list { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.faq-item { background: var(--surface); padding: 2px 22px; }
+.faq-item summary {
+  padding: 18px 0;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15.5px;
+  list-style: none;
+  position: relative;
+  padding-right: 28px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+";
+  position: absolute;
+  right: 0;
+  top: 18px;
+  color: var(--brass-soft);
+  font-size: 20px;
+  line-height: 1;
+}
+.faq-item[open] summary::after { content: "–"; }
+.faq-item p { margin: 0 0 20px; color: var(--text-muted); font-size: 15px; max-width: 65ch; }
+
 /* ===== Footer ===== */
 .site-footer {
   border-top: 1px solid var(--border);
