@@ -29,7 +29,7 @@
         <span class="auth-btn-short">Giriş</span>
       </button>
       <div class="account-chip" id="accountChip" hidden>
-        <span id="accountEmail"></span>
+        <span id="accountGreeting"></span>
         <button class="btn-link" id="logoutBtn" type="button">Çıkış yap</button>
       </div>
     </div>
@@ -58,6 +58,9 @@
     </form>
 
     <form class="auth-form" id="signupForm" hidden>
+      <label>Ad Soyad
+        <input type="text" id="signupName" required autocomplete="name">
+      </label>
       <label>E-posta
         <input type="email" id="signupEmail" required autocomplete="email">
       </label>

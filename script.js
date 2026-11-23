@@ -222,7 +222,7 @@ function tarihAnahtari() {
   const loginMsg = document.getElementById("loginMsg");
   const signupMsg = document.getElementById("signupMsg");
   const accountChip = document.getElementById("accountChip");
-  const accountEmail = document.getElementById("accountEmail");
+  const accountGreeting = document.getElementById("accountGreeting");
   const logoutBtn = document.getElementById("logoutBtn");
 
   if (!authOpenBtn || !authOverlay) return;
@@ -253,11 +253,13 @@ function tarihAnahtari() {
     if (session && session.user) {
       authOpenBtn.hidden = true;
       accountChip.hidden = false;
-      accountEmail.textContent = session.user.email || "";
+      const adSoyad = session.user.user_metadata && session.user.user_metadata.full_name;
+      const ilkAd = adSoyad ? adSoyad.trim().split(" ")[0] : "";
+      accountGreeting.textContent = ilkAd ? ("Hoş geldin, " + ilkAd) : (session.user.email || "");
     } else {
       authOpenBtn.hidden = false;
       accountChip.hidden = true;
-      accountEmail.textContent = "";
+      accountGreeting.textContent = "";
     }
   }
 
@@ -284,9 +286,14 @@ function tarihAnahtari() {
   signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     mesajGoster(signupMsg, "Hesap oluşturuluyor...");
+    const adSoyad = document.getElementById("signupName").value.trim();
     const email = document.getElementById("signupEmail").value.trim();
     const password = document.getElementById("signupPassword").value;
-    const { error } = await sb.auth.signUp({ email, password });
+    const { error } = await sb.auth.signUp({
+      email,
+      password,
+      options: { data: { full_name: adSoyad } }
+    });
     if (error) {
       mesajGoster(signupMsg, "Üyelik oluşturulamadı: " + error.message, "error");
       return;
