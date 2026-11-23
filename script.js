@@ -203,3 +203,107 @@ function tarihAnahtari() {
     });
   });
 })();
+
+// ===== Üyelik / Giriş (Supabase) =====
+(function () {
+  const SUPABASE_URL = "https://aduzmvshlhmpagpzuyfj.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_tvG0FzD4OdyjTlf8n6rDeQ_VOLpe0S9";
+
+  if (typeof window.supabase === "undefined") return;
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const authOpenBtn = document.getElementById("authOpenBtn");
+  const authOverlay = document.getElementById("authOverlay");
+  const authCloseBtn = document.getElementById("authCloseBtn");
+  const tabLogin = document.getElementById("tabLogin");
+  const tabSignup = document.getElementById("tabSignup");
+  const loginForm = document.getElementById("loginForm");
+  const signupForm = document.getElementById("signupForm");
+  const loginMsg = document.getElementById("loginMsg");
+  const signupMsg = document.getElementById("signupMsg");
+  const accountChip = document.getElementById("accountChip");
+  const accountEmail = document.getElementById("accountEmail");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if (!authOpenBtn || !authOverlay) return;
+
+  function mesajGoster(el, metin, tur) {
+    el.textContent = metin;
+    el.classList.remove("error", "ok");
+    if (tur) el.classList.add(tur);
+  }
+
+  function modalAc() {
+    authOverlay.hidden = false;
+    mesajGoster(loginMsg, "");
+    mesajGoster(signupMsg, "");
+  }
+  function modalKapat() {
+    authOverlay.hidden = true;
+  }
+
+  function sekmeSec(girisMi) {
+    tabLogin.classList.toggle("active", girisMi);
+    tabSignup.classList.toggle("active", !girisMi);
+    loginForm.hidden = !girisMi;
+    signupForm.hidden = girisMi;
+  }
+
+  function girisDurumunuGuncelle(session) {
+    if (session && session.user) {
+      authOpenBtn.hidden = true;
+      accountChip.hidden = false;
+      accountEmail.textContent = session.user.email || "";
+    } else {
+      authOpenBtn.hidden = false;
+      accountChip.hidden = true;
+      accountEmail.textContent = "";
+    }
+  }
+
+  authOpenBtn.addEventListener("click", () => { sekmeSec(true); modalAc(); });
+  authCloseBtn.addEventListener("click", modalKapat);
+  authOverlay.addEventListener("click", (e) => { if (e.target === authOverlay) modalKapat(); });
+  tabLogin.addEventListener("click", () => sekmeSec(true));
+  tabSignup.addEventListener("click", () => sekmeSec(false));
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    mesajGoster(loginMsg, "Giriş yapılıyor...");
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) {
+      mesajGoster(loginMsg, "Giriş başarısız: e-posta ya da şifre hatalı.", "error");
+      return;
+    }
+    mesajGoster(loginMsg, "Giriş yapıldı!", "ok");
+    setTimeout(modalKapat, 600);
+  });
+
+  signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    mesajGoster(signupMsg, "Hesap oluşturuluyor...");
+    const email = document.getElementById("signupEmail").value.trim();
+    const password = document.getElementById("signupPassword").value;
+    const { error } = await sb.auth.signUp({ email, password });
+    if (error) {
+      mesajGoster(signupMsg, "Üyelik oluşturulamadı: " + error.message, "error");
+      return;
+    }
+    mesajGoster(signupMsg, "Hesabın oluşturuldu! E-postanı doğrulamak için gelen kutunu kontrol et.", "ok");
+    setTimeout(modalKapat, 1500);
+  });
+
+  logoutBtn.addEventListener("click", async () => {
+    await sb.auth.signOut();
+  });
+
+  sb.auth.onAuthStateChange((_event, session) => {
+    girisDurumunuGuncelle(session);
+  });
+
+  sb.auth.getSession().then(({ data }) => {
+    girisDurumunuGuncelle(data.session);
+  });
+})();

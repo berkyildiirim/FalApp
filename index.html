@@ -23,9 +23,53 @@
       <a href="#burc">Burç</a>
       <a href="#sss">SSS</a>
     </nav>
+    <div class="header-actions">
+      <button class="btn btn-ghost" id="authOpenBtn" type="button">
+        <span class="auth-btn-full">Üye Ol / Giriş Yap</span>
+        <span class="auth-btn-short">Giriş</span>
+      </button>
+      <div class="account-chip" id="accountChip" hidden>
+        <span id="accountEmail"></span>
+        <button class="btn-link" id="logoutBtn" type="button">Çıkış yap</button>
+      </div>
+    </div>
     <a class="btn btn-small" href="https://wa.me/905555555555" target="_blank" rel="noopener">Fal Baktır</a>
   </div>
 </header>
+
+<div class="auth-overlay" id="authOverlay" hidden>
+  <div class="auth-box">
+    <button class="auth-close" id="authCloseBtn" type="button" aria-label="Kapat">✕</button>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" type="button">Giriş Yap</button>
+      <button class="auth-tab" id="tabSignup" type="button">Üye Ol</button>
+    </div>
+
+    <form class="auth-form" id="loginForm">
+      <label>E-posta
+        <input type="email" id="loginEmail" required autocomplete="email">
+      </label>
+      <label>Şifre
+        <input type="password" id="loginPassword" required autocomplete="current-password">
+      </label>
+      <p class="auth-msg" id="loginMsg"></p>
+      <button class="btn btn-primary auth-submit" type="submit">Giriş Yap</button>
+    </form>
+
+    <form class="auth-form" id="signupForm" hidden>
+      <label>E-posta
+        <input type="email" id="signupEmail" required autocomplete="email">
+      </label>
+      <label>Şifre
+        <input type="password" id="signupPassword" required minlength="6" autocomplete="new-password">
+      </label>
+      <p class="auth-hint">En az 6 karakter.</p>
+      <p class="auth-msg" id="signupMsg"></p>
+      <button class="btn btn-primary auth-submit" type="submit">Üye Ol</button>
+    </form>
+  </div>
+</div>
 
 <main id="top">
 
@@ -363,6 +407,7 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
