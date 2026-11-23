@@ -29,53 +29,70 @@ const gununKartlari = [
   { baslik: "Değişim Rüzgarı", metin: "Alıştığın bir düzende küçük bir değişiklik bugün sana iyi gelebilir." },
 ];
 
-function gunlukKartIndeksi() {
-  const bugun = new Date();
-  const gunSayisi = Math.floor(
-    Date.UTC(bugun.getFullYear(), bugun.getMonth(), bugun.getDate()) / 86400000
-  );
-  return gunSayisi % gununKartlari.length;
-}
-
 function tarihAnahtari() {
   const b = new Date();
   return `${b.getFullYear()}-${b.getMonth()}-${b.getDate()}`;
 }
 
 (function () {
-  const kartEl = document.getElementById("dailyCard");
-  if (!kartEl) return;
+  const yayilim = document.getElementById("cardSpread");
+  const ipucu = document.getElementById("dailyHint");
+  if (!yayilim) return;
 
-  const kart = gununKartlari[gunlukKartIndeksi()];
-  document.getElementById("dailyCardTitle").textContent = kart.baslik;
-  document.getElementById("dailyCardText").textContent = kart.metin;
+  const kartlar = Array.from(yayilim.querySelectorAll(".card-flip"));
 
-  function cevir() {
-    kartEl.classList.toggle("flipped");
+  function kartiDoldur(el, kart) {
+    el.querySelector(".card-back strong").textContent = kart.baslik;
+    el.querySelector(".card-back p").textContent = kart.metin;
+  }
+
+  function kilitle() {
+    yayilim.setAttribute("data-locked", "true");
+  }
+
+  function sec(secilenEl) {
+    const kartIndeks = Math.floor(Math.random() * gununKartlari.length);
+    kartiDoldur(secilenEl, gununKartlari[kartIndeks]);
+    secilenEl.classList.add("flipped");
+    kilitle();
+    ipucu.textContent = "Bugünlük bu kadar — yarın yeni bir kart seçebilirsin.";
     try {
       localStorage.setItem(
-        "falapp_gunun_karti",
-        JSON.stringify({ gun: tarihAnahtari(), acik: kartEl.classList.contains("flipped") })
+        "falapp_gunun_cekilisi",
+        JSON.stringify({ gun: tarihAnahtari(), slot: secilenEl.dataset.slot, kart: kartIndeks })
       );
     } catch (e) {
       /* localStorage kapalıysa sorun değil, sadece hatırlanmaz */
     }
   }
 
+  yayilim.setAttribute("data-locked", "false");
+
   try {
-    const kayit = JSON.parse(localStorage.getItem("falapp_gunun_karti") || "null");
-    if (kayit && kayit.gun === tarihAnahtari() && kayit.acik) {
-      kartEl.classList.add("flipped");
+    const kayit = JSON.parse(localStorage.getItem("falapp_gunun_cekilisi") || "null");
+    if (kayit && kayit.gun === tarihAnahtari()) {
+      const secilenEl = kartlar.find((k) => k.dataset.slot === String(kayit.slot));
+      if (secilenEl && gununKartlari[kayit.kart]) {
+        kartiDoldur(secilenEl, gununKartlari[kayit.kart]);
+        secilenEl.classList.add("flipped");
+        kilitle();
+        ipucu.textContent = "Bugünkü kartını zaten seçtin — yarın tekrar gel.";
+      }
     }
   } catch (e) {
-    /* kayıt okunamazsa kart kapalı başlar, sorun değil */
+    /* kayıt okunamazsa baştan seçim yapılır, sorun değil */
   }
 
-  kartEl.addEventListener("click", cevir);
-  kartEl.addEventListener("keydown", function (e) {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      cevir();
-    }
+  kartlar.forEach((el) => {
+    el.addEventListener("click", () => {
+      if (yayilim.getAttribute("data-locked") === "true") return;
+      sec(el);
+    });
+    el.addEventListener("keydown", (e) => {
+      if ((e.key === "Enter" || e.key === " ") && yayilim.getAttribute("data-locked") !== "true") {
+        e.preventDefault();
+        sec(el);
+      }
+    });
   });
 })();

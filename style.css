@@ -273,22 +273,37 @@ section h2 {
 }
 
 /* ===== Günün kartı ===== */
-.daily-card { border-top: 1px solid var(--border); }
-.daily-inner {
-  display: grid;
-  gap: 32px;
-  align-items: center;
-  justify-items: start;
-}
+.daily-card { border-top: 1px solid var(--border); text-align: center; }
+.daily-text { max-width: 46ch; margin: 0 auto; }
 .daily-text h2 { margin-bottom: 8px; }
 
+.card-spread {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 44px 0 20px;
+}
+
 .card-flip {
-  width: 220px;
-  height: 300px;
+  width: 108px;
+  height: 160px;
   perspective: 1200px;
   cursor: pointer;
-  justify-self: center;
+  transition: transform 0.25s ease, opacity 0.4s ease;
 }
+.card-flip:hover { transform: translateY(-8px); }
+
+@media (min-width: 560px) {
+  .card-flip { width: 130px; height: 190px; }
+  .card-spread[data-locked="false"] .card-flip:nth-child(1) { transform: rotate(-9deg) translateY(10px); }
+  .card-spread[data-locked="false"] .card-flip:nth-child(2) { transform: rotate(-4deg) translateY(2px); }
+  .card-spread[data-locked="false"] .card-flip:nth-child(4) { transform: rotate(4deg) translateY(2px); }
+  .card-spread[data-locked="false"] .card-flip:nth-child(5) { transform: rotate(9deg) translateY(10px); }
+  .card-spread[data-locked="false"] .card-flip:hover { transform: translateY(-8px) scale(1.03); }
+}
+
 .card-flip-inner {
   position: relative;
   width: 100%;
@@ -302,7 +317,7 @@ section h2 {
 .card-face {
   position: absolute;
   inset: 0;
-  border-radius: 18px;
+  border-radius: 14px;
   border: 1px solid var(--border);
   backface-visibility: hidden;
   display: flex;
@@ -310,37 +325,47 @@ section h2 {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 24px;
+  padding: 14px;
 }
 .card-front {
   background: radial-gradient(circle at 50% 35%, #2b2650, var(--surface) 72%);
 }
 .card-mark {
-  font-size: 40px;
+  font-size: 28px;
   color: var(--brass-soft);
 }
 .card-back {
   background: var(--surface-2);
   transform: rotateY(180deg);
-  gap: 10px;
+  gap: 6px;
 }
 .card-back strong {
   font-family: var(--serif);
-  font-size: 19px;
+  font-size: 15.5px;
   color: var(--brass-soft);
 }
 .card-back p {
   margin: 0;
-  font-size: 14.5px;
+  font-size: 12px;
+  line-height: 1.4;
   color: var(--text-muted);
 }
 
-@media (min-width: 720px) {
-  .daily-inner {
-    grid-template-columns: 1fr auto;
-    justify-items: stretch;
-  }
-  .card-flip { justify-self: end; }
+.card-spread[data-locked="true"] .card-flip:not(.flipped) {
+  opacity: 0.3;
+  pointer-events: none;
+  transform: none !important;
+}
+.card-spread[data-locked="true"] .card-flip.flipped {
+  pointer-events: none;
+  transform: translateY(-8px) scale(1.08);
+}
+.card-spread[data-locked="true"] .card-flip.flipped:hover { transform: translateY(-8px) scale(1.08); }
+
+.daily-hint {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 0;
 }
 
 .falcilar { border-top: 1px solid var(--border); }

@@ -61,22 +61,44 @@
   </section>
 
   <section class="daily-card" id="gunun-karti">
-    <div class="wrap daily-inner">
+    <div class="wrap">
       <div class="daily-text">
-        <h2>Bugünün kartı</h2>
-        <p class="section-sub">Herkese aynı kart, her gün yenilenir. Çevirmek için dokun.</p>
+        <h2>Kendi kartını seç</h2>
+        <p class="section-sub">Beş karttan birini seç, mesajın açılsın. Günde bir kez çekebilirsin.</p>
       </div>
-      <div class="card-flip" id="dailyCard" role="button" tabindex="0" aria-label="Bugünün kartını çevir">
-        <div class="card-flip-inner">
-          <div class="card-face card-front">
-            <span class="card-mark">✦</span>
+      <div class="card-spread" id="cardSpread">
+        <div class="card-flip" data-slot="0" role="button" tabindex="0" aria-label="1. kartı seç">
+          <div class="card-flip-inner">
+            <div class="card-face card-front"><span class="card-mark">✦</span></div>
+            <div class="card-face card-back"><strong></strong><p></p></div>
           </div>
-          <div class="card-face card-back">
-            <strong id="dailyCardTitle"></strong>
-            <p id="dailyCardText"></p>
+        </div>
+        <div class="card-flip" data-slot="1" role="button" tabindex="0" aria-label="2. kartı seç">
+          <div class="card-flip-inner">
+            <div class="card-face card-front"><span class="card-mark">✦</span></div>
+            <div class="card-face card-back"><strong></strong><p></p></div>
+          </div>
+        </div>
+        <div class="card-flip" data-slot="2" role="button" tabindex="0" aria-label="3. kartı seç">
+          <div class="card-flip-inner">
+            <div class="card-face card-front"><span class="card-mark">✦</span></div>
+            <div class="card-face card-back"><strong></strong><p></p></div>
+          </div>
+        </div>
+        <div class="card-flip" data-slot="3" role="button" tabindex="0" aria-label="4. kartı seç">
+          <div class="card-flip-inner">
+            <div class="card-face card-front"><span class="card-mark">✦</span></div>
+            <div class="card-face card-back"><strong></strong><p></p></div>
+          </div>
+        </div>
+        <div class="card-flip" data-slot="4" role="button" tabindex="0" aria-label="5. kartı seç">
+          <div class="card-flip-inner">
+            <div class="card-face card-front"><span class="card-mark">✦</span></div>
+            <div class="card-face card-back"><strong></strong><p></p></div>
           </div>
         </div>
       </div>
+      <p class="daily-hint" id="dailyHint">Bir kart seç.</p>
     </div>
   </section>
 
