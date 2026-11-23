@@ -204,10 +204,19 @@ function tarihAnahtari() {
   });
 })();
 
+// ===== Ortak Supabase bağlantısı (sayfada tek sefer kurulur) =====
+function falappSupabase() {
+  if (typeof window.supabase === "undefined") return null;
+  if (!window.__falappClient) {
+    window.__falappClient = window.supabase.createClient(FALAPP_SUPABASE_URL, FALAPP_SUPABASE_ANON_KEY);
+  }
+  return window.__falappClient;
+}
+
 // ===== Üyelik / Giriş (Supabase) =====
 (function () {
-  if (typeof window.supabase === "undefined") return;
-  const sb = window.supabase.createClient(FALAPP_SUPABASE_URL, FALAPP_SUPABASE_ANON_KEY);
+  const sb = falappSupabase();
+  if (!sb) return;
 
   const authOpenBtn = document.getElementById("authOpenBtn");
   const authOverlay = document.getElementById("authOverlay");
@@ -393,8 +402,8 @@ function tarihAnahtari() {
 // ===== Falcılar listesi (Supabase'ten) =====
 (function () {
   const falciList = document.getElementById("falciList");
-  if (!falciList || typeof window.supabase === "undefined") return;
-  const sb = window.supabase.createClient(FALAPP_SUPABASE_URL, FALAPP_SUPABASE_ANON_KEY);
+  const sb = falappSupabase();
+  if (!falciList || !sb) return;
 
   function falciSatiriOlustur(f) {
     const durumHtml = f.durum === "musait"
