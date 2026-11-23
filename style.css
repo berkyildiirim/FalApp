@@ -281,27 +281,30 @@ section h2 {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin: 44px 0 20px;
+  margin: 56px 0 28px;
+  padding: 0 10px;
 }
 
 .card-flip {
-  width: 108px;
-  height: 160px;
+  width: 56px;
+  height: 92px;
+  margin-left: -26px;
   perspective: 1200px;
   cursor: pointer;
-  transition: transform 0.25s ease, opacity 0.4s ease;
+  transform-origin: bottom center;
+  transform: rotate(var(--rot, 0deg));
+  transition: transform 0.25s ease, opacity 0.4s ease, margin 0.25s ease;
+  position: relative;
 }
-.card-flip:hover { transform: translateY(-8px); }
+.card-flip:first-child { margin-left: 0; }
 
-@media (min-width: 560px) {
-  .card-flip { width: 130px; height: 190px; }
-  .card-spread[data-locked="false"] .card-flip:nth-child(1) { transform: rotate(-9deg) translateY(10px); }
-  .card-spread[data-locked="false"] .card-flip:nth-child(2) { transform: rotate(-4deg) translateY(2px); }
-  .card-spread[data-locked="false"] .card-flip:nth-child(4) { transform: rotate(4deg) translateY(2px); }
-  .card-spread[data-locked="false"] .card-flip:nth-child(5) { transform: rotate(9deg) translateY(10px); }
-  .card-spread[data-locked="false"] .card-flip:hover { transform: translateY(-8px) scale(1.03); }
+.card-spread[data-locked="false"] .card-flip:hover {
+  transform: rotate(var(--rot, 0deg)) translateY(-14px);
+  z-index: 20;
+}
+
+@media (min-width: 640px) {
+  .card-flip { width: 92px; height: 148px; margin-left: -44px; }
 }
 
 .card-flip-inner {
@@ -317,7 +320,7 @@ section h2 {
 .card-face {
   position: absolute;
   inset: 0;
-  border-radius: 14px;
+  border-radius: 10px;
   border: 1px solid var(--border);
   backface-visibility: hidden;
   display: flex;
@@ -325,42 +328,61 @@ section h2 {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 14px;
+  padding: 6px;
+  overflow: hidden;
 }
 .card-front {
   background: radial-gradient(circle at 50% 35%, #2b2650, var(--surface) 72%);
 }
 .card-mark {
-  font-size: 28px;
+  font-size: 16px;
   color: var(--brass-soft);
 }
 .card-back {
   background: var(--surface-2);
   transform: rotateY(180deg);
-  gap: 6px;
+  gap: 4px;
 }
 .card-back strong {
   font-family: var(--serif);
-  font-size: 15.5px;
+  font-size: 11px;
   color: var(--brass-soft);
 }
 .card-back p {
   margin: 0;
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: 9px;
+  line-height: 1.3;
   color: var(--text-muted);
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .card-face { border-radius: 14px; padding: 10px; }
+  .card-mark { font-size: 24px; }
 }
 
 .card-spread[data-locked="true"] .card-flip:not(.flipped) {
-  opacity: 0.3;
+  opacity: 0.25;
   pointer-events: none;
-  transform: none !important;
 }
 .card-spread[data-locked="true"] .card-flip.flipped {
   pointer-events: none;
-  transform: translateY(-8px) scale(1.08);
+  width: 168px;
+  height: 242px;
+  transform: rotate(0deg) translateY(-18px);
+  z-index: 30;
+  margin-left: 10px;
 }
-.card-spread[data-locked="true"] .card-flip.flipped:hover { transform: translateY(-8px) scale(1.08); }
+@media (min-width: 640px) {
+  .card-spread[data-locked="true"] .card-flip.flipped { width: 200px; height: 290px; }
+}
+.card-spread[data-locked="true"] .card-flip.flipped .card-mark { font-size: 40px; }
+.card-spread[data-locked="true"] .card-flip.flipped .card-back { padding: 20px; gap: 10px; }
+.card-spread[data-locked="true"] .card-flip.flipped .card-back strong { font-size: 18px; }
+.card-spread[data-locked="true"] .card-flip.flipped .card-back p {
+  font-size: 13.5px;
+  display: block;
+}
 
 .daily-hint {
   color: var(--text-muted);
