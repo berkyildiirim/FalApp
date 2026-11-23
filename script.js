@@ -27,6 +27,21 @@ const gununKartlari = [
   { baslik: "Güçlü Duruş", metin: "Haklı olduğun bir konuda bugün geri adım atmana gerek yok." },
   { baslik: "Hafifle", metin: "Taşıdığın bir sorumluluğu biraz bırakmak ya da paylaşmak zamanı olabilir." },
   { baslik: "Değişim Rüzgarı", metin: "Alıştığın bir düzende küçük bir değişiklik bugün sana iyi gelebilir." },
+  { baslik: "Kalpten Konuşan", metin: "Bugün biri sana içini döküyorsa, çözüm önermek yerine sadece dinlemek daha değerli olabilir." },
+  { baslik: "Boş Ver Gitsin", metin: "Değiştiremeyeceğin bir şeye kafanı takmak yerine bugün bırakmayı dene." },
+  { baslik: "Göz Önünde", metin: "Bir süredir fark edilmediğini düşündüğün bir emeğin bugün karşılık bulabilir." },
+  { baslik: "Plan Değişikliği", metin: "Bugün bir planının aksaması, aslında seni daha iyi bir yere yönlendirebilir." },
+  { baslik: "Sözünü Tut", metin: "Birine verdiğin küçük bir sözü bugün hatırlayıp yerine getirmek iyi gelir." },
+  { baslik: "Yalnız Değilsin", metin: "Bugün yardım istemekten çekinme, çevrendekiler göründüğünden daha hazır." },
+  { baslik: "Kıskançlık Tuzağı", metin: "Başkasının gidişatıyla kendini kıyaslamak yerine bugün kendi hızına odaklan." },
+  { baslik: "Eve Dönüş", metin: "Dışarıda aradığın huzur, bugün aslında evde ya da ailende olabilir." },
+  { baslik: "Ufak Bir Risk", metin: "Küçük, hesaplı bir risk bugün almaya değer olabilir." },
+  { baslik: "Sessizlik İyi Gelir", metin: "Bugün biraz yalnız kalmak, kafanı toparlaman için gerekli olabilir." },
+  { baslik: "Takdir Et", metin: "Yakınındaki birine bugün bir teşekkür borcun olabilir, söylemenin tam zamanı." },
+  { baslik: "Dönüşüm", metin: "Zor geçen bir süreç, bugün itibarıyla sana bir şeyler öğretmiş olarak geride kalıyor." },
+  { baslik: "Fazla Düşünme", metin: "Bugün bir konuyu olduğundan büyütme eğiliminde olabilirsin, biraz mesafe koy." },
+  { baslik: "Küçük Keyifler", metin: "Büyük planlar yerine bugün seni mutlu eden küçük bir şeye zaman ayır." },
+  { baslik: "Netlik Geliyor", metin: "Kararsız kaldığın bir konuda bugün ya da yarın kafanın netleştiğini hissedebilirsin." },
 ];
 
 function tarihAnahtari() {
@@ -50,8 +65,37 @@ function tarihAnahtari() {
     yayilim.setAttribute("data-locked", "true");
   }
 
+  function sonCikanlariOku() {
+    try {
+      return JSON.parse(localStorage.getItem("falapp_kart_gecmisi") || "[]");
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function sonCikanlariYaz(liste) {
+    try {
+      localStorage.setItem("falapp_kart_gecmisi", JSON.stringify(liste));
+    } catch (e) {
+      /* kaydedilemezse sorun değil, sadece tekrar önleme çalışmaz */
+    }
+  }
+
+  function rastgeleKartSec() {
+    const sonGecmis = sonCikanlariOku();
+    let adaylar = gununKartlari.map((_, i) => i).filter((i) => !sonGecmis.includes(i));
+    if (adaylar.length === 0) {
+      adaylar = gununKartlari.map((_, i) => i);
+    }
+    const secilenIndeks = adaylar[Math.floor(Math.random() * adaylar.length)];
+    const hafizaUzunlugu = Math.min(gununKartlari.length - 1, 10);
+    const yeniGecmis = [...sonGecmis, secilenIndeks].slice(-hafizaUzunlugu);
+    sonCikanlariYaz(yeniGecmis);
+    return secilenIndeks;
+  }
+
   function sec(secilenEl) {
-    const kartIndeks = Math.floor(Math.random() * gununKartlari.length);
+    const kartIndeks = rastgeleKartSec();
     kartiDoldur(secilenEl, gununKartlari[kartIndeks]);
     secilenEl.classList.add("flipped");
     kilitle();
