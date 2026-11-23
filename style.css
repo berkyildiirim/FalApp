@@ -549,6 +549,77 @@ section h2 {
 .review-reply strong { font-size: 13.5px; color: var(--moon); }
 .review-reply p { color: var(--text-muted); font-size: 14.5px; margin-top: 4px; }
 
+/* ===== Burç ===== */
+.horoscope { border-top: 1px solid var(--border); text-align: center; }
+.horoscope .section-sub { max-width: 46ch; margin-left: auto; margin-right: auto; }
+
+.zodiac-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 640px;
+  margin: 32px auto 0;
+}
+@media (min-width: 560px) {
+  .zodiac-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (min-width: 820px) {
+  .zodiac-grid { grid-template-columns: repeat(6, 1fr); }
+}
+
+.zodiac-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.zodiac-btn:hover { border-color: var(--brass); transform: translateY(-2px); }
+.zodiac-btn.active {
+  border-color: var(--brass);
+  background: var(--surface-2);
+}
+.zodiac-sym {
+  font-size: 22px;
+  color: var(--brass-soft);
+}
+
+.zodiac-result {
+  max-width: 560px;
+  margin: 28px auto 0;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px;
+  text-align: left;
+  animation: belirme 0.4s ease;
+}
+.zodiac-result strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: 19px;
+  color: var(--brass-soft);
+  margin-bottom: 8px;
+}
+.zodiac-result p { margin: 0; color: var(--text); font-size: 15px; line-height: 1.55; }
+
+@keyframes belirme {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .zodiac-result { animation: none; }
+}
+
 /* ===== FAQ ===== */
 .faq { border-top: 1px solid var(--border); }
 .faq-list { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }

@@ -44,6 +44,69 @@ const gununKartlari = [
   { baslik: "Netlik Geliyor", metin: "Kararsız kaldığın bir konuda bugün ya da yarın kafanın netleştiğini hissedebilirsin." },
 ];
 
+// ===== Günlük burç yorumu =====
+// Gerçek astrolojik hesaplama değil: tarihe göre sabit bir indeks
+// hesaplıyoruz. Aynı gün aynı burca herkese aynı yorum çıkıyor,
+// burçlar arası da farklılaşıyor, gece yarısı hepsi birden değişiyor.
+
+const burcYorumlari = [
+  "Bugün başladığın işi yarıda bırakmadan bitirmen, kafanı rahatlatacak.",
+  "Yakınındaki biriyle aranızda küçük bir yanlış anlaşılma varsa, açık konuşmak için uygun bir gün.",
+  "Para konusunda bugün aceleci kararlar almaktan kaçın, bir gün beklemek zarar vermez.",
+  "İş hayatında sessizce yürüttüğün bir çaba, bugün ya da yarın fark edilebilir.",
+  "Bugün enerjin biraz düşük olabilir, kendine zorlama yapmadan ilerle.",
+  "Uzun süredir ertelediğin bir görüşmeyi yapmak için güzel bir gün.",
+  "Çevrendekilerle aranda bugün küçük bir yakınlaşma hissedebilirsin.",
+  "Bir konuda haklı olduğunu düşünüyorsan, bugün bunu savunmaktan çekinme.",
+  "Günün ilerleyen saatlerinde beklemediğin küçük bir haber gelebilir.",
+  "Bugün plan yapmak yerine akışa bırakmak daha iyi sonuç verebilir.",
+  "İlişkilerinde bugün biraz daha sabırlı olman, gerginliği azaltır.",
+  "Harcamalarını gözden geçirmek için bugün uygun bir zaman.",
+  "Kendine ayırdığın küçük bir an, bugün bütün günü değiştirebilir.",
+  "Bir karar vermekte zorlanıyorsan, bugün değil yarın karar vermek daha sağlıklı.",
+  "Eski bir konu bugün beklenmedik şekilde tekrar gündeme gelebilir.",
+  "Bugün etrafındakilere her zamankinden biraz daha dikkatli davranman, sana geri dönecek.",
+  "İş birliği yapman gereken biriyle bugün aranızda uyum daha kolay kurulabilir.",
+  "Bedenin bugün dinlenmek istiyor olabilir, buna kulak vermekte fayda var.",
+  "Bugün söylediğin bir söz, düşündüğünden daha fazla ağırlık taşıyabilir — dikkatli seç.",
+  "Küçük bir fedakârlık, bugün ilişkilerinde büyük bir fark yaratabilir.",
+  "Yeni bir şey öğrenmeye bugün her zamankinden daha açık olabilirsin.",
+  "Bugün bir konuda ikna olman için fazla zorlanmana gerek yok, içgüdün doğruyu biliyor.",
+  "Ailenle ya da yakınlarınla ilgili bir konu bugün gündemine gelebilir.",
+  "Bugün rekabetten çok iş birliği seni daha ileri taşır.",
+];
+
+function burcYorumuGetir(burcIndeksi) {
+  const bugun = new Date();
+  const gunSayisi = Math.floor(
+    Date.UTC(bugun.getFullYear(), bugun.getMonth(), bugun.getDate()) / 86400000
+  );
+  const indeks = (gunSayisi + burcIndeksi * 7) % burcYorumlari.length;
+  return burcYorumlari[indeks];
+}
+
+(function () {
+  const grid = document.getElementById("zodiacGrid");
+  if (!grid) return;
+
+  const sonuc = document.getElementById("zodiacResult");
+  const sonucAd = document.getElementById("zodiacResultName");
+  const sonucMetin = document.getElementById("zodiacResultText");
+  const butonlar = Array.from(grid.querySelectorAll(".zodiac-btn"));
+
+  butonlar.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      butonlar.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      const isim = btn.dataset.name;
+      const indeks = Number(btn.dataset.sign);
+      sonucAd.textContent = isim;
+      sonucMetin.textContent = burcYorumuGetir(indeks);
+      sonuc.hidden = false;
+    });
+  });
+})();
+
 function tarihAnahtari() {
   const b = new Date();
   return `${b.getFullYear()}-${b.getMonth()}-${b.getDate()}`;
