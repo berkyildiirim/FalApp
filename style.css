@@ -272,6 +272,77 @@ section h2 {
   font-size: 16px;
 }
 
+/* ===== Günün kartı ===== */
+.daily-card { border-top: 1px solid var(--border); }
+.daily-inner {
+  display: grid;
+  gap: 32px;
+  align-items: center;
+  justify-items: start;
+}
+.daily-text h2 { margin-bottom: 8px; }
+
+.card-flip {
+  width: 220px;
+  height: 300px;
+  perspective: 1200px;
+  cursor: pointer;
+  justify-self: center;
+}
+.card-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
+  transform-style: preserve-3d;
+}
+.card-flip.flipped .card-flip-inner {
+  transform: rotateY(180deg);
+}
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+}
+.card-front {
+  background: radial-gradient(circle at 50% 35%, #2b2650, var(--surface) 72%);
+}
+.card-mark {
+  font-size: 40px;
+  color: var(--brass-soft);
+}
+.card-back {
+  background: var(--surface-2);
+  transform: rotateY(180deg);
+  gap: 10px;
+}
+.card-back strong {
+  font-family: var(--serif);
+  font-size: 19px;
+  color: var(--brass-soft);
+}
+.card-back p {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--text-muted);
+}
+
+@media (min-width: 720px) {
+  .daily-inner {
+    grid-template-columns: 1fr auto;
+    justify-items: stretch;
+  }
+  .card-flip { justify-self: end; }
+}
+
 .falcilar { border-top: 1px solid var(--border); }
 
 /* ===== Falcı list ===== */
