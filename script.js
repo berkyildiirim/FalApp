@@ -221,6 +221,9 @@ function tarihAnahtari() {
   const signupForm = document.getElementById("signupForm");
   const loginMsg = document.getElementById("loginMsg");
   const signupMsg = document.getElementById("signupMsg");
+  const loginEmailMsg = document.getElementById("loginEmailMsg");
+  const signupEmailMsg = document.getElementById("signupEmailMsg");
+  const signupPasswordMsg = document.getElementById("signupPasswordMsg");
   const accountChip = document.getElementById("accountChip");
   const accountGreeting = document.getElementById("accountGreeting");
   const logoutBtn = document.getElementById("logoutBtn");
@@ -233,10 +236,54 @@ function tarihAnahtari() {
     if (tur) el.classList.add(tur);
   }
 
+  const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[a-zA-ZÇĞİÖŞÜçğıöşü]{2,}$/;
+  const SIFRE_NOKTALAMA = /[!"#$%&'()*+,\-./:;<=>?@[\]^_`{|}~]/;
+  const SIFRE_BUYUK_HARF = /[A-ZÇĞİÖŞÜ]/;
+
+  function emailGecerliMi(email) {
+    return EMAIL_REGEX.test(email);
+  }
+
+  function sifreGecerliMi(sifre) {
+    return sifre.length >= 6 && SIFRE_BUYUK_HARF.test(sifre) && SIFRE_NOKTALAMA.test(sifre);
+  }
+
+  function emailAlaniniDenetle(inputEl, msgEl) {
+    const deger = inputEl.value.trim();
+    if (!deger) { mesajGoster(msgEl, ""); return true; }
+    if (!emailGecerliMi(deger)) {
+      mesajGoster(msgEl, "Geçerli bir e-posta adresi gir (örn: isim@eposta.com).", "error");
+      return false;
+    }
+    mesajGoster(msgEl, "");
+    return true;
+  }
+
+  function sifreAlaniniDenetle() {
+    const deger = document.getElementById("signupPassword").value;
+    if (!deger) {
+      mesajGoster(signupPasswordMsg, "En az 6 karakter, bir büyük harf ve bir noktalama işareti (!?.,-_ vb.) içermeli.");
+      return false;
+    }
+    if (!sifreGecerliMi(deger)) {
+      const eksikler = [];
+      if (deger.length < 6) eksikler.push("en az 6 karakter");
+      if (!SIFRE_BUYUK_HARF.test(deger)) eksikler.push("bir büyük harf");
+      if (!SIFRE_NOKTALAMA.test(deger)) eksikler.push("bir noktalama işareti");
+      mesajGoster(signupPasswordMsg, "Eksik: " + eksikler.join(", ") + ".", "error");
+      return false;
+    }
+    mesajGoster(signupPasswordMsg, "Şifre uygun.", "ok");
+    return true;
+  }
+
   function modalAc() {
     authOverlay.hidden = false;
     mesajGoster(loginMsg, "");
     mesajGoster(signupMsg, "");
+    mesajGoster(loginEmailMsg, "");
+    mesajGoster(signupEmailMsg, "");
+    mesajGoster(signupPasswordMsg, "En az 6 karakter, bir büyük harf ve bir noktalama işareti (!?.,-_ vb.) içermeli.");
   }
   function modalKapat() {
     authOverlay.hidden = true;
@@ -269,10 +316,26 @@ function tarihAnahtari() {
   tabLogin.addEventListener("click", () => sekmeSec(true));
   tabSignup.addEventListener("click", () => sekmeSec(false));
 
+  const loginEmailInput = document.getElementById("loginEmail");
+  const signupEmailInput = document.getElementById("signupEmail");
+  const signupPasswordInput = document.getElementById("signupPassword");
+
+  loginEmailInput.addEventListener("blur", () => emailAlaniniDenetle(loginEmailInput, loginEmailMsg));
+  loginEmailInput.addEventListener("input", () => { if (loginEmailMsg.textContent) emailAlaniniDenetle(loginEmailInput, loginEmailMsg); });
+
+  signupEmailInput.addEventListener("blur", () => emailAlaniniDenetle(signupEmailInput, signupEmailMsg));
+  signupEmailInput.addEventListener("input", () => { if (signupEmailMsg.textContent) emailAlaniniDenetle(signupEmailInput, signupEmailMsg); });
+
+  signupPasswordInput.addEventListener("input", sifreAlaniniDenetle);
+  signupPasswordInput.addEventListener("focus", () => {
+    if (!signupPasswordInput.value) mesajGoster(signupPasswordMsg, "En az 6 karakter, bir büyük harf ve bir noktalama işareti (!?.,-_ vb.) içermeli.");
+  });
+
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    mesajGoster(loginMsg, "Giriş yapılıyor...");
     const email = document.getElementById("loginEmail").value.trim();
+    if (!emailAlaniniDenetle(loginEmailInput, loginEmailMsg)) return;
+    mesajGoster(loginMsg, "Giriş yapılıyor...");
     const password = document.getElementById("loginPassword").value;
     const { error } = await sb.auth.signInWithPassword({ email, password });
     if (error) {
@@ -285,10 +348,18 @@ function tarihAnahtari() {
 
   signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    mesajGoster(signupMsg, "Hesap oluşturuluyor...");
     const adSoyad = document.getElementById("signupName").value.trim();
     const email = document.getElementById("signupEmail").value.trim();
     const password = document.getElementById("signupPassword").value;
+
+    const emailTamam = emailAlaniniDenetle(signupEmailInput, signupEmailMsg);
+    const sifreTamam = sifreAlaniniDenetle();
+    if (!emailTamam || !sifreTamam) {
+      mesajGoster(signupMsg, "Lütfen üstteki uyarıları düzelt.", "error");
+      return;
+    }
+
+    mesajGoster(signupMsg, "Hesap oluşturuluyor...");
     const { error } = await sb.auth.signUp({
       email,
       password,

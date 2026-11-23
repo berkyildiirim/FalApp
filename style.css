@@ -258,6 +258,15 @@ a { color: inherit; }
 }
 .auth-form input:focus { outline: none; border-color: var(--moon); }
 .auth-hint { margin: -8px 0 0; font-size: 13px; color: var(--text-muted); }
+.auth-field-msg {
+  margin: -10px 0 0;
+  font-size: 13px;
+  color: var(--text-muted);
+  min-height: 16px;
+}
+.auth-field-msg:empty { margin: 0; min-height: 0; }
+.auth-field-msg.error { color: #e07a6b; }
+.auth-field-msg.ok { color: var(--green); }
 .auth-msg { margin: 0; font-size: 13px; min-height: 18px; }
 .auth-msg.error { color: #e07a6b; }
 .auth-msg.ok { color: var(--green); }

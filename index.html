@@ -50,6 +50,7 @@
       <label>E-posta
         <input type="email" id="loginEmail" required autocomplete="email">
       </label>
+      <p class="auth-field-msg" id="loginEmailMsg"></p>
       <label>Şifre
         <input type="password" id="loginPassword" required autocomplete="current-password">
       </label>
@@ -64,10 +65,11 @@
       <label>E-posta
         <input type="email" id="signupEmail" required autocomplete="email">
       </label>
+      <p class="auth-field-msg" id="signupEmailMsg"></p>
       <label>Şifre
         <input type="password" id="signupPassword" required minlength="6" autocomplete="new-password">
       </label>
-      <p class="auth-hint">En az 6 karakter.</p>
+      <p class="auth-field-msg" id="signupPasswordMsg">En az 6 karakter, bir büyük harf ve bir noktalama işareti (!?.,-_ vb.) içermeli.</p>
       <p class="auth-msg" id="signupMsg"></p>
       <button class="btn btn-primary auth-submit" type="submit">Üye Ol</button>
     </form>
