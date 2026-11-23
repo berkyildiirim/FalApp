@@ -543,7 +543,7 @@ function falappSupabase() {
     if (y.admin_yanit) {
       const reply = document.createElement("div");
       reply.className = "review-reply";
-      reply.innerHTML = "<strong>FalApp ekibi:</strong><p></p>";
+      reply.innerHTML = "<strong>FalMısın ekibi:</strong><p></p>";
       reply.querySelector("p").textContent = y.admin_yanit;
       article.appendChild(reply);
     }
