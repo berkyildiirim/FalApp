@@ -95,9 +95,11 @@ function burcYorumuGetir(burcIndeksi) {
   const butonlar = Array.from(grid.querySelectorAll(".zodiac-btn"));
 
   butonlar.forEach((btn) => {
+    btn.setAttribute("aria-pressed", "false");
     btn.addEventListener("click", () => {
-      butonlar.forEach((b) => b.classList.remove("active"));
+      butonlar.forEach((b) => { b.classList.remove("active"); b.setAttribute("aria-pressed", "false"); });
       btn.classList.add("active");
+      btn.setAttribute("aria-pressed", "true");
       const isim = btn.dataset.name;
       const indeks = Number(btn.dataset.sign);
       sonucAd.textContent = isim;

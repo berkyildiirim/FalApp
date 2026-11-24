@@ -265,8 +265,20 @@
       <h2>Bugün müsait falcılar</h2>
       <p class="section-sub">Hepsi kimlik doğrulamasından geçmiş, gerçek kişiler. Otomatik yanıt yok.</p>
 
-      <div class="falci-list" id="falciList">
-        <p class="falci-loading" id="falciLoading">Falcılar yükleniyor...</p>
+      <div class="falci-list" id="falciList" aria-busy="true">
+        <div class="skeleton-row" aria-hidden="true">
+          <span class="skeleton-avatar"></span>
+          <span class="skeleton-falci-text"><span class="skeleton-line skeleton-line-name"></span><span class="skeleton-line skeleton-line-sub"></span></span>
+        </div>
+        <div class="skeleton-row" aria-hidden="true">
+          <span class="skeleton-avatar"></span>
+          <span class="skeleton-falci-text"><span class="skeleton-line skeleton-line-name"></span><span class="skeleton-line skeleton-line-sub"></span></span>
+        </div>
+        <div class="skeleton-row" aria-hidden="true">
+          <span class="skeleton-avatar"></span>
+          <span class="skeleton-falci-text"><span class="skeleton-line skeleton-line-name"></span><span class="skeleton-line skeleton-line-sub"></span></span>
+        </div>
+        <p class="sr-only">Falcılar yükleniyor...</p>
       </div>
     </div>
   </section>
@@ -365,8 +377,18 @@
         </form>
       </div>
 
-      <div class="review-list" id="reviewList">
-        <p class="falci-loading">Yorumlar yükleniyor...</p>
+      <div class="review-list" id="reviewList" aria-busy="true">
+        <div class="skeleton-review" aria-hidden="true">
+          <span class="skeleton-line" style="width:140px"></span>
+          <span class="skeleton-line" style="width:100%;margin-top:12px"></span>
+          <span class="skeleton-line" style="width:72%;margin-top:8px"></span>
+        </div>
+        <div class="skeleton-review" aria-hidden="true">
+          <span class="skeleton-line" style="width:110px"></span>
+          <span class="skeleton-line" style="width:92%;margin-top:12px"></span>
+          <span class="skeleton-line" style="width:60%;margin-top:8px"></span>
+        </div>
+        <p class="sr-only">Yorumlar yükleniyor...</p>
       </div>
     </div>
   </section>
