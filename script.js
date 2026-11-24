@@ -459,6 +459,25 @@ function falappSupabase() {
     const falcilarGuncel = await gercekPuanlariUygula(data);
     falciList.innerHTML = "";
     falcilarGuncel.forEach((f) => falciList.appendChild(falciSatiriOlustur(f)));
+    heroIstatistikleriniGuncelle(falcilarGuncel.length);
+  }
+
+  // ===== Hero güven şeridi: gerçek ortalama puan / yorum / falcı sayısı =====
+  async function heroIstatistikleriniGuncelle(falciSayisi) {
+    const heroStats = document.getElementById("heroStats");
+    if (!heroStats) return;
+    const { data: yorumlar, error } = await sb.from("yorumlar").select("puan");
+    if (error || !yorumlar || yorumlar.length === 0) return;
+    const toplamPuan = yorumlar.reduce((acc, y) => acc + (Number(y.puan) || 0), 0);
+    const ortalama = (toplamPuan / yorumlar.length).toFixed(1);
+    heroStats.innerHTML = `
+      <span><strong>${ortalama}</strong>ortalama puan</span>
+      <span class="hero-stats-dot" aria-hidden="true">✦</span>
+      <span><strong>${yorumlar.length}</strong>yorum</span>
+      <span class="hero-stats-dot" aria-hidden="true">✦</span>
+      <span><strong>${falciSayisi}</strong>doğrulanmış falcı</span>
+    `;
+    heroStats.hidden = false;
   }
 
   window.__falappFalciYenile = falciListesiniYukle;

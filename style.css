@@ -483,6 +483,28 @@ a { color: inherit; }
   margin: 18px 0 24px;
 }
 
+/* ===== Hero: gerçek rakamlarla güven şeridi ===== */
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 7px 16px;
+  margin: 0 0 24px;
+  font-size: 14px;
+  color: var(--text-muted);
+  animation: belirme 0.5s ease;
+}
+.hero-stats strong {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--brass-soft);
+  margin-right: 5px;
+}
+.hero-stats-dot {
+  color: var(--border);
+}
+
 .trust-list {
   list-style: none;
   padding: 0;
