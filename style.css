@@ -142,6 +142,8 @@ a { color: inherit; }
 .btn-primary {
   background: var(--brass);
   color: #211607;
+  position: relative;
+  overflow: hidden;
 }
 .btn-primary:hover { background: var(--brass-soft); }
 
@@ -150,8 +152,30 @@ a { color: inherit; }
   font-size: 14px;
   background: var(--brass);
   color: #211607;
+  position: relative;
+  overflow: hidden;
 }
 .btn-small:hover { background: var(--brass-soft); }
+
+/* İnce bir "parıltı" geçişi — fal/mücevher hissine küçük bir dokunuş */
+.btn-primary::before,
+.btn-small::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(115deg, transparent, rgba(255,255,255,0.45), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+.btn-primary:hover::before,
+.btn-small:hover::before { left: 130%; }
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary::before, .btn-small::before { display: none; }
+}
 
 .btn-ghost {
   padding: 9px 18px;
@@ -341,6 +365,39 @@ a { color: inherit; }
 @media (min-width: 760px) {
   .main-nav { display: flex; }
   .header-inner .btn { margin-left: 0; }
+}
+
+/* ===== Mobil hızlı gezinme (yatay kaydırılan şerit) ===== */
+.mobile-quicknav {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 10px 20px;
+  background: rgba(20, 18, 37, 0.92);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 15;
+}
+.mobile-quicknav::-webkit-scrollbar { display: none; }
+.mobile-quicknav a {
+  flex: 0 0 auto;
+  padding: 7px 15px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.mobile-quicknav a:hover,
+.mobile-quicknav a:active { border-color: var(--brass); color: var(--brass-soft); }
+@media (min-width: 760px) {
+  .mobile-quicknav { display: none; }
 }
 
 /* ===== Hero ===== */
@@ -629,6 +686,18 @@ section h2 {
   background: radial-gradient(circle at 50% 35%, #352a5c, var(--surface) 75%);
   box-shadow: inset 0 0 0 1px rgba(176, 125, 219, 0.18);
 }
+.card-front::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--brass-soft);
+  box-shadow: -4px 2px 0 1px var(--surface);
+  opacity: 0.4;
+}
 .card-mark {
   font-size: 16px;
   color: var(--brass-soft);
@@ -654,6 +723,7 @@ section h2 {
 @media (min-width: 640px) {
   .card-face { border-radius: 14px; padding: 10px; }
   .card-mark { font-size: 24px; }
+  .card-front::after { top: 12px; left: 12px; width: 16px; height: 16px; box-shadow: -6px 3px 0 1px var(--surface); }
 }
 
 .card-spread[data-locked="true"] .card-flip:not(.flipped) {
