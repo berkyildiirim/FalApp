@@ -340,6 +340,23 @@ a { color: inherit; }
   background: radial-gradient(circle, rgba(139,152,232,0.12) 0%, rgba(139,152,232,0) 70%);
   pointer-events: none;
 }
+.hero-moon {
+  display: none;
+  position: absolute;
+  top: 28px;
+  right: 76px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--brass-soft);
+  box-shadow: -19px 5px 0 2px var(--bg);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
+}
+@media (min-width: 820px) {
+  .hero-moon { display: block; }
+}
 .hero-inner { position: relative; z-index: 1; }
 .hero-inner {
   display: grid;
