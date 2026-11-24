@@ -890,7 +890,8 @@ section h2 {
   font-family: var(--serif);
   font-size: 20px;
   color: var(--brass-soft);
-  border: 1px solid var(--border);
+  background: radial-gradient(circle at 32% 28%, rgba(227,176,107,0.22), transparent 70%), var(--surface);
+  border: 1px solid var(--brass);
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -898,12 +899,26 @@ section h2 {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  box-shadow: 0 0 20px -7px rgba(201,138,62,0.6);
 }
 .how-steps strong { font-size: 17px; }
 .how-steps p { margin: 4px 0 0; color: var(--text-muted); }
 
 @media (min-width: 760px) {
   .how-steps { grid-template-columns: repeat(3, 1fr); }
+  .how-steps li { position: relative; }
+  .how-steps li:not(:last-child)::after {
+    content: "✦";
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 28px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--border);
+  }
 }
 
 /* ===== Pricing ===== */
@@ -966,6 +981,10 @@ section h2 {
   font-weight: 600;
   font-size: 13.5px;
 }
+.compare th:nth-child(2), .compare td:nth-child(2) {
+  background: rgba(201,138,62,0.08);
+}
+.compare thead th:nth-child(2) { color: var(--brass-soft); }
 .compare .yes { color: var(--green); font-weight: 600; }
 .compare .no { color: var(--text-muted); }
 
