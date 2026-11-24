@@ -467,8 +467,24 @@ section h2 {
 
 .falci-loading { color: var(--text-muted); font-size: 15px; }
 
+/* ===== Bölüm ayracı: ince çizgi + yıldız süslemesi ===== */
+.sec-divider {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, transparent, var(--border) 20%, var(--border) 80%, transparent) no-repeat center / 100% 1px;
+}
+.sec-divider::before {
+  content: "✦";
+  background: var(--bg);
+  padding: 0 16px;
+  color: var(--brass-soft);
+  font-size: 12px;
+}
+
 /* ===== Günün kartı ===== */
-.daily-card { border-top: 1px solid var(--border); text-align: center; }
+.daily-card { text-align: center; }
 .daily-text { max-width: 46ch; margin: 0 auto; }
 .daily-text h2 { margin-bottom: 8px; }
 
@@ -585,7 +601,7 @@ section h2 {
   margin: 0;
 }
 
-.falcilar { border-top: 1px solid var(--border); }
+.falcilar { }
 
 /* ===== Falcı list ===== */
 .falci-list {
@@ -636,7 +652,7 @@ section h2 {
 }
 
 /* ===== How it works ===== */
-.how { border-top: 1px solid var(--border); }
+.how { }
 .how-steps {
   list-style: none;
   margin: 0;
@@ -670,7 +686,7 @@ section h2 {
 }
 
 /* ===== Pricing ===== */
-.pricing { border-top: 1px solid var(--border); }
+.pricing { }
 .price-box {
   background: var(--surface);
   border: 1px solid var(--brass);
@@ -722,7 +738,7 @@ section h2 {
 .compare .no { color: var(--text-muted); }
 
 /* ===== Reviews ===== */
-.reviews { border-top: 1px solid var(--border); }
+.reviews { }
 .review-list { display: grid; gap: 18px; }
 .review {
   background: var(--surface);
@@ -790,7 +806,7 @@ section h2 {
 }
 
 /* ===== Burç ===== */
-.horoscope { border-top: 1px solid var(--border); text-align: center; }
+.horoscope { text-align: center; }
 .horoscope .section-sub { max-width: 46ch; margin-left: auto; margin-right: auto; }
 
 .zodiac-grid {
@@ -861,7 +877,7 @@ section h2 {
 }
 
 /* ===== FAQ ===== */
-.faq { border-top: 1px solid var(--border); }
+.faq { }
 .faq-list { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .faq-item { background: var(--surface); padding: 2px 22px; }
 .faq-item summary {
