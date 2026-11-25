@@ -957,6 +957,24 @@ section h2 {
 }
 
 .falcilar { }
+.falcilar-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+}
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: rgba(91, 201, 142, 0.08);
+  border: 1px solid rgba(91, 201, 142, 0.35);
+  border-radius: 999px;
+  padding: 5px 12px 5px 10px;
+}
 
 /* ===== Falcı uzmanlık filtresi ===== */
 .falci-filter {

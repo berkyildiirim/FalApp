@@ -517,6 +517,23 @@ function falappSupabase() {
     filtreOlustur(falcilarGuncel);
     falciListesiniCiz(falcilarGuncel);
     heroIstatistikleriniGuncelle(falcilarGuncel.length);
+    canliRozetiGuncelle(falcilarGuncel);
+  }
+
+  // ===== "Şu an N falcı müsait" canlı rozeti: rakip platformların çoğu
+  // (Kasamba, Mysticsense vb.) müsaitlik sayısını öne çıkarıyor; burada
+  // zaten yüklenmiş gerçek veriden türetiliyor, ekstra sorgu gerekmiyor. =====
+  function canliRozetiGuncelle(falcilar) {
+    const rozet = document.getElementById("liveBadge");
+    const rozetMetin = document.getElementById("liveBadgeText");
+    if (!rozet || !rozetMetin) return;
+    const musaitSayisi = falcilar.filter((f) => f.durum === "musait").length;
+    if (musaitSayisi === 0) {
+      rozet.hidden = true;
+      return;
+    }
+    rozetMetin.textContent = musaitSayisi === 1 ? "1 falcı şu an müsait" : musaitSayisi + " falcı şu an müsait";
+    rozet.hidden = false;
   }
 
   // ===== Hero güven şeridi: gerçek ortalama puan / yorum / falcı sayısı =====
