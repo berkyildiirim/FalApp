@@ -621,6 +621,49 @@ a { color: inherit; }
   padding: 0 10px;
   line-height: 1;
 }
+/* ===== Hero kartı: çevresinde ışıldayan üç nokta (gece göğü hissini karta taşır) ===== */
+.hero-card-sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+.spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--brass-soft);
+  box-shadow: 0 0 7px 1.5px var(--brass-soft);
+  animation: spark-twinkle 2.6s ease-in-out infinite;
+}
+.spark-1 { top: -7px; left: 10%; animation-delay: 0s; }
+.spark-2 {
+  top: 48%;
+  right: -7px;
+  width: 3px;
+  height: 3px;
+  background: var(--mystic-soft);
+  box-shadow: 0 0 7px 1.5px var(--mystic-soft);
+  animation-delay: 0.9s;
+}
+.spark-3 {
+  bottom: -6px;
+  left: 38%;
+  width: 3px;
+  height: 3px;
+  background: var(--nazar-blue);
+  box-shadow: 0 0 7px 1.5px var(--nazar-blue);
+  animation-delay: 1.7s;
+}
+@keyframes spark-twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spark { animation: none; opacity: 0.55; }
+}
+
 .hero-card-top {
   display: flex;
   align-items: center;
