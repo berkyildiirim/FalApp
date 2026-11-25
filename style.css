@@ -687,10 +687,12 @@ section h2 {
 }
 .skeleton-row {
   background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 16px 18px;
+  padding: 20px;
 }
 .skeleton-falci-text { display: flex; flex-direction: column; gap: 8px; flex: 1 1 140px; }
 .skeleton-line-name { width: 120px; }
@@ -852,52 +854,73 @@ section h2 {
 
 .falcilar { }
 
-/* ===== Falcı list ===== */
+/* ===== Falcı list: kart ızgarası ===== */
 .falci-list {
   display: grid;
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 680px) {
+  .falci-list { grid-template-columns: repeat(2, 1fr); }
 }
 .falci-row {
+  position: relative;
   background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
-  gap: 14px;
-  padding: 16px 18px;
-  transition: background 0.15s ease;
+  gap: 10px 14px;
+  padding: 20px 20px 18px;
+  transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
 }
-.falci-row:hover { background: var(--surface-2); }
-.falci-info { display: flex; flex-direction: column; min-width: 0; flex: 1 1 140px; order: 1; }
+.falci-row:hover {
+  border-color: var(--brass);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 44px -24px rgba(0,0,0,0.55), 0 0 32px -22px var(--mystic);
+}
+.falci-info { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; order: 1; gap: 2px; }
 .falci-info span { color: var(--text-muted); font-size: 13.5px; }
+.falci-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  color: var(--green);
+  font-size: 12.5px;
+  font-weight: 600;
+}
 .falci-rating {
-  display: none;
+  display: flex;
   order: 2;
+  flex: 0 0 100%;
   align-items: center;
   gap: 5px;
   color: var(--brass-soft);
   font-size: 14px;
   white-space: nowrap;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border);
 }
 .falci-rating span { color: var(--text-muted); }
 .falci-status {
-  display: none;
+  display: flex;
   order: 3;
+  flex: 0 0 100%;
   align-items: center;
   gap: 7px;
   font-size: 13.5px;
   color: var(--text-muted);
   white-space: nowrap;
 }
-.avatar { order: 0; }
-.falci-row .btn-ghost { order: 4; margin-left: auto; }
-
-@media (min-width: 640px) {
-  .falci-rating, .falci-status { display: flex; }
-  .falci-row .btn-ghost { margin-left: 0; }
+.avatar { order: 0; flex: 0 0 auto; }
+.falci-row .btn-ghost {
+  order: 4;
+  flex: 0 0 100%;
+  justify-content: center;
+  margin-left: 0;
+  margin-top: 4px;
 }
 
 /* ===== How it works ===== */

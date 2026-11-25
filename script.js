@@ -419,6 +419,7 @@ function falappSupabase() {
       <div class="falci-info">
         <strong></strong>
         <span></span>
+        <span class="falci-verified">✓ Kimlik onaylı</span>
       </div>
       <div class="falci-rating">★ ${f.puan || "5.0"} <span>(${f.yorum_sayisi || 0} yorum)</span></div>
       <div class="falci-status">${durumHtml}</div>
