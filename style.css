@@ -854,6 +854,33 @@ section h2 {
 
 .falcilar { }
 
+/* ===== Falcı uzmanlık filtresi ===== */
+.falci-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 22px 0 22px;
+}
+.falci-filter-btn {
+  padding: 8px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.falci-filter-btn:hover { border-color: var(--brass); color: var(--text); transform: translateY(-1px); }
+.falci-filter-btn.active {
+  border-color: var(--brass);
+  background: var(--surface-2);
+  color: var(--brass-soft);
+  box-shadow: 0 0 0 1px var(--brass);
+}
+
 /* ===== Falcı list: kart ızgarası ===== */
 .falci-list {
   display: grid;

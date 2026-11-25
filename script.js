@@ -404,6 +404,7 @@ function falappSupabase() {
 // ===== Falcılar listesi (Supabase'ten) =====
 (function () {
   const falciList = document.getElementById("falciList");
+  const falciFilter = document.getElementById("falciFilter");
   const sb = falappSupabase();
   if (!falciList || !sb) return;
 
@@ -451,15 +452,70 @@ function falappSupabase() {
     return falcilar;
   }
 
+  function falciListesiniCiz(falcilar) {
+    falciList.setAttribute("aria-busy", "false");
+    falciList.innerHTML = "";
+    if (falcilar.length === 0) {
+      falciList.innerHTML = '<p class="falci-loading">Bu uzmanlıkta şu an müsait falcı yok.</p>';
+      return;
+    }
+    falcilar.forEach((f) => falciList.appendChild(falciSatiriOlustur(f)));
+  }
+
+  // ===== Uzmanlığa göre filtre: falcı verisindeki gerçek uzmanlık
+  // değerlerinden türetilir, sabit bir kategori listesi varsayılmaz. =====
+  function filtreOlustur(falcilar) {
+    if (!falciFilter) return;
+    const uzmanliklar = [...new Set(falcilar.map((f) => (f.uzmanlik || "").trim()).filter(Boolean))];
+    if (uzmanliklar.length < 2) {
+      falciFilter.hidden = true;
+      falciFilter.innerHTML = "";
+      return;
+    }
+
+    falciFilter.innerHTML = "";
+    const tumuBtn = document.createElement("button");
+    tumuBtn.type = "button";
+    tumuBtn.className = "falci-filter-btn active";
+    tumuBtn.textContent = "Tümü";
+    tumuBtn.dataset.value = "";
+    falciFilter.appendChild(tumuBtn);
+
+    uzmanliklar.forEach((u) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "falci-filter-btn";
+      btn.textContent = u;
+      btn.dataset.value = u;
+      falciFilter.appendChild(btn);
+    });
+
+    const butonlar = Array.from(falciFilter.querySelectorAll(".falci-filter-btn"));
+    butonlar.forEach((btn) => {
+      btn.setAttribute("aria-pressed", btn.classList.contains("active") ? "true" : "false");
+      btn.addEventListener("click", () => {
+        butonlar.forEach((b) => { b.classList.remove("active"); b.setAttribute("aria-pressed", "false"); });
+        btn.classList.add("active");
+        btn.setAttribute("aria-pressed", "true");
+        const secilen = btn.dataset.value;
+        const filtrelenmis = secilen ? falcilar.filter((f) => (f.uzmanlik || "").trim() === secilen) : falcilar;
+        falciListesiniCiz(filtrelenmis);
+      });
+    });
+    falciFilter.hidden = false;
+  }
+
   async function falciListesiniYukle() {
     const { data, error } = await sb.from("falcilar").select("*").eq("aktif", true).order("sira", { ascending: true });
     if (error || !data || data.length === 0) {
+      falciList.setAttribute("aria-busy", "false");
       falciList.innerHTML = '<p class="falci-loading">Şu an falcı listesi yüklenemedi, birazdan tekrar dene.</p>';
+      if (falciFilter) { falciFilter.hidden = true; falciFilter.innerHTML = ""; }
       return;
     }
     const falcilarGuncel = await gercekPuanlariUygula(data);
-    falciList.innerHTML = "";
-    falcilarGuncel.forEach((f) => falciList.appendChild(falciSatiriOlustur(f)));
+    filtreOlustur(falcilarGuncel);
+    falciListesiniCiz(falcilarGuncel);
     heroIstatistikleriniGuncelle(falcilarGuncel.length);
   }
 
@@ -578,6 +634,7 @@ function falappSupabase() {
       .select("*, falcilar(ad)")
       .order("created_at", { ascending: false })
       .limit(30);
+    reviewList.setAttribute("aria-busy", "false");
     if (error) {
       reviewList.innerHTML = '<p class="falci-loading">Yorumlar yüklenemedi, birazdan tekrar dene.</p>';
       return;
