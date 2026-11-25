@@ -13,6 +13,10 @@
   --mystic-soft: #d1aeec;
   --green: #5bc98e;
   --amber-warn: #d99a3e;
+  --nazar-outer: #16305c;
+  --nazar-ring: #eef1f8;
+  --nazar-blue: #2f72b5;
+  --nazar-pupil: #0b1830;
 
   --serif: "Fraunces", Georgia, serif;
   --sans: "Source Sans 3", system-ui, -apple-system, sans-serif;
@@ -99,6 +103,30 @@ main, header, footer, .auth-overlay {
 }
 .logo-mark .lm-moon { fill: var(--brass-soft); }
 .logo-mark .lm-star { fill: var(--moon); }
+
+/* ===== Nazar boncuğu rozeti (güven/koruma motifi) ===== */
+.nazar-mark {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  flex-shrink: 0;
+}
+.footer-nazar {
+  width: 17px;
+  height: 17px;
+  margin-left: 9px;
+  opacity: 0.9;
+}
+.hero-card-nazar {
+  position: absolute;
+  top: -12px;
+  right: 18px;
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+}
+.hero-card-nazar .nazar-mark { width: 100%; height: 100%; }
 
 .wrap {
   max-width: var(--wrap);
@@ -942,7 +970,7 @@ section h2 {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(to right, var(--brass), var(--mystic-soft), var(--moon));
+  background: linear-gradient(to right, var(--brass), var(--mystic-soft), var(--nazar-blue));
 }
 .price-main { display: flex; flex-direction: column; gap: 8px; }
 .price-amount {
