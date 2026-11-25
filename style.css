@@ -1085,6 +1085,8 @@ section h2 {
 }
 .how-steps strong { font-size: 17px; }
 .how-steps p { margin: 4px 0 0; color: var(--text-muted); }
+.how-heading { display: flex; align-items: center; gap: 9px; }
+.how-icon { width: 19px; height: 19px; flex-shrink: 0; color: var(--brass-soft); opacity: 0.9; }
 
 @media (min-width: 760px) {
   .how-steps { grid-template-columns: repeat(3, 1fr); }
