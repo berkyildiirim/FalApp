@@ -443,6 +443,7 @@ a { color: inherit; }
   height: 520px;
   background: radial-gradient(circle, rgba(201,138,62,0.16) 0%, rgba(201,138,62,0) 70%);
   pointer-events: none;
+  animation: aura-drift 15s ease-in-out infinite;
 }
 .hero::after {
   content: "";
@@ -453,6 +454,29 @@ a { color: inherit; }
   height: 480px;
   background: radial-gradient(circle, rgba(139,152,232,0.12) 0%, rgba(139,152,232,0) 70%);
   pointer-events: none;
+  animation: aura-drift 19s ease-in-out infinite reverse;
+}
+.hero-inner::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 6%;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(176,125,219,0.14) 0%, rgba(176,125,219,0) 72%);
+  pointer-events: none;
+  z-index: 0;
+  animation: aura-drift-center 17s ease-in-out infinite;
+}
+@keyframes aura-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-14px, 12px) scale(1.06); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes aura-drift-center {
+  0%   { transform: translateY(-50%) translate(0, 0) scale(1); }
+  50%  { transform: translateY(-50%) translate(-12px, 10px) scale(1.07); }
+  100% { transform: translateY(-50%) translate(0, 0) scale(1); }
 }
 .hero-moon {
   display: none;
@@ -533,23 +557,35 @@ a { color: inherit; }
   color: var(--border);
 }
 
-.trust-list {
+.trust-badges {
   list-style: none;
   padding: 0;
   margin: 0 0 28px;
   display: grid;
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 9px;
 }
-.trust-list li {
+.trust-badge {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 15px;
+  gap: 9px;
+  font-size: 13.5px;
+  font-weight: 500;
   color: var(--text);
+  background: rgba(38, 32, 64, 0.55);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 9px 14px;
+  transition: border-color 0.18s ease, transform 0.18s ease;
 }
-.trust-list .check {
+.trust-badge:hover {
+  border-color: var(--brass);
+  transform: translateY(-1px);
+}
+.trust-badge .check {
   color: var(--green);
   font-weight: 700;
+  flex-shrink: 0;
 }
 
 .hero-card {
@@ -721,7 +757,21 @@ section h2 {
 }
 
 /* ===== Günün kartı ===== */
-.daily-card { text-align: center; }
+.daily-card { text-align: center; position: relative; }
+.daily-card::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  width: 640px;
+  max-width: 90vw;
+  height: 260px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, rgba(176,125,219,0.17) 0%, rgba(201,138,62,0.07) 45%, transparent 72%);
+  pointer-events: none;
+  z-index: 0;
+}
+.daily-card .wrap { position: relative; z-index: 1; }
 .daily-text { max-width: 46ch; margin: 0 auto; }
 .daily-text h2 { margin-bottom: 8px; }
 
