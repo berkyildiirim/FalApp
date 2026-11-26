@@ -1510,6 +1510,20 @@ section h2 {
   background: linear-gradient(to right, transparent, var(--brass) 18%, var(--mystic-soft) 50%, var(--nazar-blue) 82%, transparent);
   opacity: 0.75;
 }
+/* Header'daki çadır eteği (valance) ile aynı dikiş: burada ters yönde,
+   üst kenardan sarkan bir saçak gibi — sayfayı çadırın girişinde açılıp
+   sonunda kapanan bir kumaşla "sarmalıyor". */
+.site-footer::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 1.5px;
+  height: 8px;
+  background: radial-gradient(circle at 9px 0, transparent 7px, var(--border) 7px, var(--border) 7.6px, transparent 7.6px) 0 0 / 18px 8px repeat-x;
+  opacity: 0.7;
+  pointer-events: none;
+}
 .footer-inner {
   display: grid;
   gap: 24px;
