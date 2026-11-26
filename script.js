@@ -603,6 +603,49 @@ function falappSupabase() {
     return "★".repeat(puan) + "☆".repeat(5 - puan);
   }
 
+  // ===== Yorum özeti: ortalama puan + 5-1 yıldız dağılımı, tüm yorumlardan
+  // hesaplanır (listede gösterilen son 30 yorumla sınırlı değil). =====
+  async function ozetGuncelle() {
+    const summary = document.getElementById("reviewSummary");
+    if (!summary) return;
+    const { data: tumPuanlar, error } = await sb.from("yorumlar").select("puan");
+    if (error || !tumPuanlar || tumPuanlar.length === 0) {
+      summary.hidden = true;
+      return;
+    }
+    const dagilim = [0, 0, 0, 0, 0]; // dagilim[0] -> 5 yıldız ... dagilim[4] -> 1 yıldız
+    let toplam = 0;
+    let gecerliAdet = 0;
+    tumPuanlar.forEach((y) => {
+      const p = Math.round(Number(y.puan));
+      if (p >= 1 && p <= 5) {
+        dagilim[5 - p] += 1;
+        toplam += p;
+        gecerliAdet += 1;
+      }
+    });
+    if (gecerliAdet === 0) {
+      summary.hidden = true;
+      return;
+    }
+    const ortalama = toplam / gecerliAdet;
+    document.getElementById("reviewSummaryAvg").textContent = ortalama.toFixed(1);
+    document.getElementById("reviewSummaryStars").textContent = yildizGoster(Math.round(ortalama));
+    document.getElementById("reviewSummaryCount").textContent = gecerliAdet === 1 ? "1 yorum" : gecerliAdet + " yorum";
+
+    const barsEl = document.getElementById("reviewSummaryBars");
+    barsEl.innerHTML = "";
+    for (let yildiz = 5; yildiz >= 1; yildiz--) {
+      const sayi = dagilim[5 - yildiz];
+      const yuzde = Math.round((sayi / gecerliAdet) * 100);
+      const row = document.createElement("div");
+      row.className = "review-summary-bar-row";
+      row.innerHTML = `<span>${yildiz}★</span><span class="review-summary-bar-track"><span class="review-summary-bar-fill" style="width:${yuzde}%"></span></span><span>${sayi}</span>`;
+      barsEl.appendChild(row);
+    }
+    summary.hidden = false;
+  }
+
   function yorumKartiOlustur(y) {
     const article = document.createElement("article");
     article.className = "review" + (y.puan <= 2 ? " review-negative" : "");
@@ -646,6 +689,7 @@ function falappSupabase() {
   }
 
   async function yorumlariYukle() {
+    ozetGuncelle();
     const { data, error } = await sb
       .from("yorumlar")
       .select("*, falcilar(ad)")

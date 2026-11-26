@@ -1236,6 +1236,68 @@ section h2 {
 .review-reply strong { font-size: 13.5px; color: var(--moon); }
 .review-reply p { color: var(--text-muted); font-size: 14.5px; margin-top: 4px; }
 
+/* ===== Yorum özeti: gerçek veriden puan dağılımı (ortalama + 5-1 yıldız çubukları) ===== */
+.review-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px 36px;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  margin-bottom: 18px;
+  animation: belirme 0.5s ease;
+}
+.review-summary-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  padding-right: 32px;
+  border-right: 1px solid var(--border);
+}
+.review-summary-score strong {
+  font-family: var(--serif);
+  font-size: 40px;
+  font-weight: 600;
+  color: var(--brass-soft);
+  line-height: 1;
+}
+.review-summary-score .stars { font-size: 15px; }
+.review-summary-score span:last-child { font-size: 12.5px; color: var(--text-muted); white-space: nowrap; }
+.review-summary-bars {
+  flex: 1 1 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 200px;
+}
+.review-summary-bar-row {
+  display: grid;
+  grid-template-columns: 38px 1fr 30px;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+.review-summary-bar-track {
+  height: 7px;
+  border-radius: 999px;
+  background: var(--bg);
+  overflow: hidden;
+}
+.review-summary-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brass), var(--brass-soft));
+}
+@media (max-width: 560px) {
+  .review-summary { padding: 18px; gap: 18px; }
+  .review-summary-score { padding-right: 0; border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 14px; width: 100%; }
+}
+
 .review-write-box {
   background: var(--surface);
   border: 1px solid var(--border);
