@@ -1149,6 +1149,11 @@ section h2 {
   margin-bottom: 36px;
   box-shadow: 0 24px 60px -28px rgba(201,138,62,0.35), 0 0 50px -32px var(--mystic);
   overflow: hidden;
+  animation: price-box-nefes 5s ease-in-out infinite;
+}
+@keyframes price-box-nefes {
+  0%, 100% { box-shadow: 0 24px 60px -28px rgba(201,138,62,0.35), 0 0 50px -32px var(--mystic); }
+  50% { box-shadow: 0 24px 64px -24px rgba(201,138,62,0.48), 0 0 62px -26px var(--mystic); }
 }
 .price-box::before {
   content: "";
