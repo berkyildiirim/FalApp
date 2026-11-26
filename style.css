@@ -774,6 +774,45 @@ section h2 {
   font-size: 16px;
 }
 
+/* ===== "Kadife çadır panelleri": tek renkli uzun sayfaya, bir fal çadırının
+   farklı kumaş bölmelerinden geçiyormuş hissi katan ince renkli ışımalar.
+   Palet değişmiyor — sadece bölümler arasında görsel ritim ve derinlik
+   ekleniyor (Kas 2026). Falcılar ve yorumlar bölümleri bilinçli olarak
+   düz bırakıldı; göz oraya "nefes alsın" diye. ===== */
+.horoscope, .how, .pricing, .faq {
+  position: relative;
+  overflow: hidden;
+}
+.horoscope > .wrap, .how > .wrap, .pricing > .wrap, .faq > .wrap {
+  position: relative;
+  z-index: 1;
+}
+.horoscope::before, .how::before, .pricing::before, .faq::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+/* Burç: gece göğü panosu — ay/yıldız rengiyle soğuk bir ışıma */
+.horoscope::before {
+  background: radial-gradient(ellipse 900px 460px at 50% 0%, rgba(79,166,153,0.10), transparent 68%);
+}
+/* Nasıl çalışır: pirinç/altın panosu */
+.how::before {
+  background: radial-gradient(ellipse 820px 520px at 88% 30%, rgba(201,138,62,0.08), transparent 65%);
+}
+/* Fiyat: kadife-mistik panosu, altın fiyat kutusuyla kontrast kursun diye */
+.pricing::before {
+  background: radial-gradient(ellipse 820px 560px at 10% 70%, rgba(178,79,104,0.11), transparent 65%);
+}
+/* SSS: üç imza rengin birlikte göründüğü kapanış panosu */
+.faq::before {
+  background:
+    radial-gradient(ellipse 680px 420px at 12% 0%, rgba(201,138,62,0.07), transparent 60%),
+    radial-gradient(ellipse 680px 420px at 88% 100%, rgba(79,166,153,0.07), transparent 60%);
+}
+
 .falci-loading { color: var(--text-muted); font-size: 15px; }
 
 /* ===== İskelet (skeleton) yükleme durumu ===== */
