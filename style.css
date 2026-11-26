@@ -226,6 +226,19 @@ a { color: inherit; }
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
 }
+/* "Kadife fal çadırı" imzası: başlığın altında ince bir çadır eteği (valance)
+   silueti — kumaş/kadife çadır hissini sadece renkle değil, biçimle de taşır. */
+.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  height: 8px;
+  background: radial-gradient(circle at 9px 0, transparent 7px, var(--border) 7px, var(--border) 7.6px, transparent 7.6px) 0 0 / 18px 8px repeat-x;
+  opacity: 0.8;
+  pointer-events: none;
+}
 .header-inner {
   display: flex;
   align-items: center;
@@ -1210,6 +1223,38 @@ section h2 {
 .compare thead th:nth-child(2) { color: var(--brass-soft); }
 .compare .yes { color: var(--green); font-weight: 600; }
 .compare .no { color: var(--text-muted); }
+
+/* Dar ekranda tabloyu sıkıştırmak yerine okunaklı kartlara çevir */
+@media (max-width: 639px) {
+  .compare, .compare tbody, .compare tr, .compare td { display: block; width: 100%; }
+  .compare thead { display: none; }
+  .compare tbody tr {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .compare tbody tr:last-child { margin-bottom: 0; }
+  .compare td {
+    border-bottom: none;
+    padding: 3px 0;
+    background: none !important;
+  }
+  .compare td:first-child {
+    font-weight: 600;
+    color: var(--text);
+    padding-bottom: 8px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare td[data-label]::before {
+    content: attr(data-label) ": ";
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 12.5px;
+  }
+}
 
 /* ===== Reviews ===== */
 .reviews { }
