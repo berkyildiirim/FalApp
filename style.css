@@ -1,16 +1,19 @@
 /* ===== Tokens ===== */
 :root {
-  --bg: #141225;
-  --surface: #1e1a33;
-  --surface-2: #262040;
-  --border: #33304f;
-  --text: #ede9f5;
-  --text-muted: #9a93b8;
+  /* ===== "Kadife Fal Çadırı" paleti: eski kozmik mor-lacivert yerine,
+     fal/tarot kültüründe daha doğrudan karşılığı olan kadife kırmızısı +
+     eski pirinç + zümrüt-yeşim ikinci vurgu rengine geçiş (Kas 2026). ===== */
+  --bg: #1c1018;
+  --surface: #2a1620;
+  --surface-2: #35192a;
+  --border: #4a2735;
+  --text: #f6ece7;
+  --text-muted: #b89aa0;
   --brass: #c98a3e;
   --brass-soft: #e3b06b;
-  --moon: #8b98e8;
-  --mystic: #b07ddb;
-  --mystic-soft: #d1aeec;
+  --moon: #4fa699;
+  --mystic: #b24f68;
+  --mystic-soft: #df9aae;
   --green: #5bc98e;
   --amber-warn: #d99a3e;
   --nazar-outer: #16305c;
@@ -53,16 +56,16 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(1px 1px at 8% 12%, rgba(237,233,245,0.55), transparent 60%),
-    radial-gradient(1px 1px at 22% 68%, rgba(237,233,245,0.4), transparent 60%),
-    radial-gradient(1.5px 1.5px at 38% 24%, rgba(139,152,232,0.55), transparent 60%),
-    radial-gradient(1px 1px at 54% 82%, rgba(237,233,245,0.4), transparent 60%),
+    radial-gradient(1px 1px at 8% 12%, rgba(246,236,231,0.55), transparent 60%),
+    radial-gradient(1px 1px at 22% 68%, rgba(246,236,231,0.4), transparent 60%),
+    radial-gradient(1.5px 1.5px at 38% 24%, rgba(79,166,153,0.55), transparent 60%),
+    radial-gradient(1px 1px at 54% 82%, rgba(246,236,231,0.4), transparent 60%),
     radial-gradient(1px 1px at 68% 14%, rgba(227,176,107,0.45), transparent 60%),
-    radial-gradient(1.5px 1.5px at 81% 58%, rgba(237,233,245,0.5), transparent 60%),
-    radial-gradient(1px 1px at 93% 36%, rgba(139,152,232,0.4), transparent 60%),
-    radial-gradient(1px 1px at 14% 90%, rgba(237,233,245,0.35), transparent 60%),
+    radial-gradient(1.5px 1.5px at 81% 58%, rgba(246,236,231,0.5), transparent 60%),
+    radial-gradient(1px 1px at 93% 36%, rgba(79,166,153,0.4), transparent 60%),
+    radial-gradient(1px 1px at 14% 90%, rgba(246,236,231,0.35), transparent 60%),
     radial-gradient(1.5px 1.5px at 62% 48%, rgba(227,176,107,0.3), transparent 60%),
-    radial-gradient(1px 1px at 88% 88%, rgba(237,233,245,0.4), transparent 60%);
+    radial-gradient(1px 1px at 88% 88%, rgba(246,236,231,0.4), transparent 60%);
   background-repeat: repeat;
   background-size: 560px 560px;
   animation: yildiz-titreme 6s ease-in-out infinite alternate;
@@ -83,9 +86,9 @@ body::after {
   z-index: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(ellipse 900px 700px at 12% -8%, rgba(176, 125, 219, 0.14), transparent 62%),
+    radial-gradient(ellipse 900px 700px at 12% -8%, rgba(178, 79, 104, 0.16), transparent 62%),
     radial-gradient(ellipse 1000px 760px at 102% 4%, rgba(201, 138, 62, 0.10), transparent 58%),
-    radial-gradient(ellipse 1200px 900px at 50% 108%, rgba(139, 152, 232, 0.12), transparent 62%);
+    radial-gradient(ellipse 1200px 900px at 50% 108%, rgba(79, 166, 153, 0.12), transparent 62%);
 }
 
 main, header, footer, .auth-overlay {
@@ -465,7 +468,7 @@ a { color: inherit; }
   left: -160px;
   width: 480px;
   height: 480px;
-  background: radial-gradient(circle, rgba(139,152,232,0.12) 0%, rgba(139,152,232,0) 70%);
+  background: radial-gradient(circle, rgba(79,166,153,0.12) 0%, rgba(79,166,153,0) 70%);
   pointer-events: none;
   animation: aura-drift 19s ease-in-out infinite reverse;
 }
@@ -476,7 +479,7 @@ a { color: inherit; }
   right: 6%;
   width: 360px;
   height: 360px;
-  background: radial-gradient(circle, rgba(176,125,219,0.14) 0%, rgba(176,125,219,0) 72%);
+  background: radial-gradient(circle, rgba(178,79,104,0.16) 0%, rgba(178,79,104,0) 72%);
   pointer-events: none;
   z-index: 0;
   animation: aura-drift-center 17s ease-in-out infinite;
@@ -715,7 +718,7 @@ a { color: inherit; }
   font-family: var(--serif);
   font-weight: 600;
   font-size: 15px;
-  color: #141225;
+  color: var(--bg);
   background: hsl(var(--hue, 28), 55%, 68%);
   flex-shrink: 0;
 }
@@ -834,7 +837,7 @@ section h2 {
   max-width: 90vw;
   height: 260px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(ellipse, rgba(176,125,219,0.17) 0%, rgba(201,138,62,0.07) 45%, transparent 72%);
+  background: radial-gradient(ellipse, rgba(178,79,104,0.19) 0%, rgba(201,138,62,0.07) 45%, transparent 72%);
   pointer-events: none;
   z-index: 0;
 }
@@ -897,8 +900,8 @@ section h2 {
   overflow: hidden;
 }
 .card-front {
-  background: radial-gradient(circle at 50% 35%, #352a5c, var(--surface) 75%);
-  box-shadow: inset 0 0 0 1px rgba(176, 125, 219, 0.18);
+  background: radial-gradient(circle at 50% 35%, #4a2238, var(--surface) 75%);
+  box-shadow: inset 0 0 0 1px rgba(178, 79, 104, 0.22);
 }
 .card-front::after {
   content: "";
