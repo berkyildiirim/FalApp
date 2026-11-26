@@ -396,6 +396,22 @@ a { color: inherit; }
 }
 
 /* ===== Mobil hızlı gezinme (yatay kaydırılan şerit) ===== */
+.mobile-quicknav-wrap {
+  position: relative;
+  z-index: 15;
+  background: rgba(20, 18, 37, 0.92);
+  border-bottom: 1px solid var(--border);
+}
+.mobile-quicknav-wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 34px;
+  pointer-events: none;
+  background: linear-gradient(to right, transparent, rgba(20, 18, 37, 0.96));
+}
 .mobile-quicknav {
   display: flex;
   gap: 8px;
@@ -403,10 +419,7 @@ a { color: inherit; }
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   padding: 10px 20px;
-  background: rgba(20, 18, 37, 0.92);
-  border-bottom: 1px solid var(--border);
   position: relative;
-  z-index: 15;
 }
 .mobile-quicknav::-webkit-scrollbar { display: none; }
 .mobile-quicknav a {
@@ -425,7 +438,7 @@ a { color: inherit; }
 .mobile-quicknav a:hover,
 .mobile-quicknav a:active { border-color: var(--brass); color: var(--brass-soft); }
 @media (min-width: 760px) {
-  .mobile-quicknav { display: none; }
+  .mobile-quicknav-wrap { display: none; }
 }
 
 /* ===== Hero ===== */
