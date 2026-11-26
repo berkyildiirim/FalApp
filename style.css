@@ -320,11 +320,21 @@ a { color: inherit; }
   inset: 0;
   z-index: 100;
   background: rgba(10, 9, 18, 0.72);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  animation: auth-overlay-belirme 0.25s ease;
 }
+@keyframes auth-overlay-belirme {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+/* ===== Giriş/üyelik kutusu: diğer imza panellerle (fiyat kutusu, hero
+   kartı) aynı pirinç-mistik-nazar gradyan şeridi ve yumuşak açılış hareketi,
+   böylece modal da sayfanın geri kalanıyla aynı dilde konuşuyor (Kas 2026). ===== */
 .auth-box {
   position: relative;
   width: 100%;
@@ -333,6 +343,25 @@ a { color: inherit; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 32px 28px 28px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px -30px rgba(0,0,0,0.6), 0 0 44px -30px var(--mystic);
+  animation: auth-box-belirme 0.32s cubic-bezier(.2,.9,.3,1.2);
+}
+.auth-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--brass), var(--mystic-soft), var(--nazar-blue));
+}
+@keyframes auth-box-belirme {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .auth-overlay, .auth-box { animation: none; }
 }
 .auth-close {
   position: absolute;
