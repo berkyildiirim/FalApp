@@ -206,6 +206,52 @@ function tarihAnahtari() {
   });
 })();
 
+// ===== Yüzen WhatsApp CTA'sı: hero geçildikten sonra belirir =====
+(function () {
+  const cta = document.getElementById("floatingCta");
+  const hero = document.querySelector(".hero");
+  if (!cta || !hero) return;
+
+  const esikGozlemci = new IntersectionObserver(
+    (girdiler) => {
+      girdiler.forEach((g) => {
+        cta.classList.toggle("visible", !g.isIntersecting && g.boundingClientRect.top < 0);
+      });
+    },
+    { threshold: 0, rootMargin: "-10% 0px 0px 0px" }
+  );
+  esikGozlemci.observe(hero);
+})();
+
+// ===== Nasıl çalışır / fiyat / yorum vb. bölüm linklerinde aktif durum
+// (kaydırırken hangi bölümdeyse üst menüde ve mobil hızlı gezinmede
+// o link vurgulanır) =====
+(function () {
+  const bolumIdleri = ["falcilar", "nasil-calisir", "fiyat", "yorumlar", "burc", "sss"];
+  const bolumler = bolumIdleri
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+  if (bolumler.length === 0) return;
+
+  const navLinkleri = Array.from(document.querySelectorAll('.main-nav a[href^="#"], .mobile-quicknav a[href^="#"]'));
+
+  function aktifYap(id) {
+    navLinkleri.forEach((a) => {
+      a.classList.toggle("active", a.getAttribute("href") === "#" + id);
+    });
+  }
+
+  const bolumGozlemci = new IntersectionObserver(
+    (girdiler) => {
+      girdiler.forEach((g) => {
+        if (g.isIntersecting) aktifYap(g.target.id);
+      });
+    },
+    { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+  );
+  bolumler.forEach((b) => bolumGozlemci.observe(b));
+})();
+
 // ===== Ortak Supabase bağlantısı (sayfada tek sefer kurulur) =====
 function falappSupabase() {
   if (typeof window.supabase === "undefined") return null;

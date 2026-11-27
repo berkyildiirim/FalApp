@@ -30,7 +30,7 @@
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-html { scroll-behavior: smooth; overflow-x: hidden; }
+html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
@@ -45,7 +45,6 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   position: relative;
-  overflow-x: hidden;
 }
 
 /* ===== Gece göğü: ince yıldız dokusu (site geneli ambiyans) ===== */
@@ -307,6 +306,7 @@ a { color: inherit; }
   font-weight: 500;
 }
 .main-nav a:hover { color: var(--text); }
+.main-nav a.active { color: var(--brass-soft); }
 
 .header-inner .btn { margin-left: auto; }
 
@@ -517,6 +517,11 @@ a { color: inherit; }
 }
 .mobile-quicknav a:hover,
 .mobile-quicknav a:active { border-color: var(--brass); color: var(--brass-soft); }
+.mobile-quicknav a.active {
+  border-color: var(--brass);
+  background: var(--surface-2);
+  color: var(--brass-soft);
+}
 @media (min-width: 760px) {
   .mobile-quicknav-wrap { display: none; }
 }
@@ -942,8 +947,12 @@ section h2 {
   font-size: 12px;
 }
 
-/* ===== Günün kartı ===== */
-.daily-card { text-align: center; position: relative; }
+/* ===== Günün kartı =====
+   Yelpaze açılan kartlar döndürülmüş halde kenarlardan taşabiliyor; bu
+   taşmayı yalnızca bu bölüme hapsediyoruz (eskiden html/body'de genel
+   overflow-x:hidden vardı, bu da sabit (sticky) header'ı bozuyordu —
+   düzeltildi, Kas 2026). */
+.daily-card { text-align: center; position: relative; overflow-x: hidden; }
 .daily-card::before {
   content: "";
   position: absolute;
@@ -1644,4 +1653,61 @@ section h2 {
 
 @media (min-width: 640px) {
   .footer-inner { grid-template-columns: 1fr auto; align-items: start; }
+}
+
+/* ===== Yüzen WhatsApp CTA'sı: hero'nun altına inince beliren, imza
+   pirinç/mistik rengiyle ışıldayan sabit buton. Rakip platformların çoğu
+   (Kasamba, Mysticsense) uzun sayfada her an elin altında bir "görüşmeye
+   başla" eylemi tutuyor — burada da aynı mantık, kadife-çadır diline
+   uygun biçimde (Kas 2026). ===== */
+.floating-cta {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 14px;
+  border-radius: 999px;
+  background: var(--brass);
+  color: #211607;
+  text-decoration: none;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 14.5px;
+  box-shadow: 0 14px 34px -14px rgba(0,0,0,0.6), 0 0 0 1px rgba(33,22,7,0.08);
+  transform: translateY(22px) scale(0.92);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(.2,.8,.3,1.2), opacity 0.3s ease, background 0.15s ease;
+}
+.floating-cta.visible {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.floating-cta:hover { background: var(--brass-soft); }
+.floating-cta-icon { width: 22px; height: 22px; flex-shrink: 0; }
+.floating-cta-label { white-space: nowrap; }
+.floating-cta-ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: 999px;
+  border: 1.5px solid var(--brass-soft);
+  opacity: 0;
+  animation: floating-cta-pulse 2.6s ease-out infinite;
+}
+@keyframes floating-cta-pulse {
+  0% { opacity: 0.55; transform: scale(0.94); }
+  70% { opacity: 0; transform: scale(1.16); }
+  100% { opacity: 0; transform: scale(1.16); }
+}
+@media (max-width: 479px) {
+  .floating-cta-label { display: none; }
+  .floating-cta { padding: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .floating-cta { transition: opacity 0.2s ease; }
+  .floating-cta-ring { animation: none; opacity: 0; }
 }
