@@ -470,7 +470,10 @@ a { color: inherit; }
 .auth-msg.ok { color: var(--green); }
 .auth-submit { width: 100%; margin-top: 4px; }
 
-@media (min-width: 760px) {
+@media (min-width: 900px) {
+  /* 900px'e çekildi: 760-899px arası (ör. dikey tablet) masaüstü menüsü +
+     tam "Üye Ol / Giriş Yap" metni yan yana sığmayıp iki satıra bölünüyordu.
+     Bu aralıkta mobil hızlı gezinme şeridi zaten düzgün çalışıyor. */
   .main-nav { display: flex; }
   .header-inner .btn { margin-left: 0; }
 }
@@ -522,7 +525,7 @@ a { color: inherit; }
   background: var(--surface-2);
   color: var(--brass-soft);
 }
-@media (min-width: 760px) {
+@media (min-width: 900px) {
   .mobile-quicknav-wrap { display: none; }
 }
 
