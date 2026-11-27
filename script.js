@@ -454,10 +454,24 @@ function falappSupabase() {
   const sb = falappSupabase();
   if (!falciList || !sb) return;
 
+  // ===== "Çok tercih edilen" rozeti: rakip platformların çoğu (AskNow'un
+  // Top Rated/Elite etiketleri, Mysticsense'in deneyim filtreleri gibi)
+  // falcıları güven seviyesine göre kademelere ayırıyor. Burada yeni bir
+  // alan eklemeden, zaten var olan gerçek puan + yorum sayısından türetilen
+  // sade bir rozetle aynı güveni kuruyoruz (Kas 2026). =====
+  function cokTercihEdilenMi(f) {
+    const puan = Number(f.puan) || 0;
+    const yorumSayisi = Number(f.yorum_sayisi) || 0;
+    return puan >= 4.8 && yorumSayisi >= 15;
+  }
+
   function falciSatiriOlustur(f) {
     const durumHtml = f.durum === "musait"
       ? '<span class="dot dot-live"></span> Müsait'
       : '<span class="dot dot-busy"></span> ' + (f.bekleme_notu || "Meşgul");
+    const topRozetHtml = cokTercihEdilenMi(f)
+      ? '<span class="falci-top-badge">✦ Çok tercih edilen</span>'
+      : "";
 
     const row = document.createElement("div");
     row.className = "falci-row";
@@ -467,6 +481,7 @@ function falappSupabase() {
         <strong></strong>
         <span></span>
         <span class="falci-verified">✓ Kimlik onaylı</span>
+        ${topRozetHtml}
       </div>
       <div class="falci-rating">★ ${f.puan || "5.0"} <span>(${f.yorum_sayisi || 0} yorum)</span></div>
       <div class="falci-status">${durumHtml}</div>
