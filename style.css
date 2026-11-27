@@ -803,6 +803,14 @@ a { color: inherit; }
   color: var(--bg);
   background: hsl(var(--hue, 28), 55%, 68%);
   flex-shrink: 0;
+  /* ===== İnce "mistik hale": gerçek-insan falcıları salt renkli bir daire
+     olmaktan çıkarıp, nazar/ay motifleriyle aynı dilde hafif bir ışıma
+     veriyor — sıcak/güvenilir his, palet değişmeden (Kas 2026). ===== */
+  position: relative;
+  box-shadow:
+    0 0 0 2px var(--bg),
+    0 0 0 3px hsla(var(--hue, 28), 60%, 72%, 0.55),
+    0 0 14px -4px hsla(var(--hue, 28), 70%, 60%, 0.65);
 }
 
 .dot {
