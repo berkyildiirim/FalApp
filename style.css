@@ -1275,6 +1275,70 @@ section h2 {
   }
 }
 
+/* ===== Görüşme önizlemesi: "canlı görüş" adımını soyut bir vaat olmaktan
+   çıkarıp somutlaştıran örnek bir WhatsApp sohbet kesiti — rakip fal
+   platformlarının çoğu akışı metinle anlatmakla yetiniyor, burada
+   deneyimi önceden gösteriyoruz (Kas 2026). Gerçek bir ekran görüntüsü
+   değil, kurgusal bir örnektir; bu yüzden altyazıda açıkça belirtiliyor. ===== */
+.chat-mock {
+  max-width: 420px;
+  margin: 44px auto 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 18px 14px;
+  box-shadow: 0 20px 48px -28px rgba(0,0,0,0.6);
+}
+.chat-mock-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px dashed var(--border);
+}
+.chat-mock-id { display: flex; flex-direction: column; gap: 1px; }
+.chat-mock-id strong { font-family: var(--serif); font-size: 15px; font-weight: 600; }
+.chat-mock-id span { font-size: 12.5px; color: var(--green); }
+.chat-mock-body { display: flex; flex-direction: column; gap: 10px; }
+.chat-bubble {
+  margin: 0;
+  max-width: 84%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.chat-in {
+  align-self: flex-start;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 4px;
+  color: var(--text);
+}
+.chat-out {
+  align-self: flex-end;
+  background: var(--mystic);
+  border: 1px solid var(--mystic-soft);
+  border-bottom-right-radius: 4px;
+  color: var(--text);
+}
+.chat-time {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--text);
+  opacity: 0.75;
+  text-align: right;
+}
+.chat-mock-caption {
+  display: block;
+  text-align: center;
+  margin-top: 14px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
 /* ===== Pricing ===== */
 .pricing { }
 .price-box {
