@@ -96,6 +96,41 @@ main, header, footer, .auth-overlay {
   z-index: 1;
 }
 
+/* ===== Kadife dokusu: ince film grenli doku, sayfaya kumaş/kadife hissi
+   katmak için — rakip fal platformlarının çoğu "temiz/düz" tasarım
+   kullanıyor, biz dokulu/zengin kadife-çadır kimliğiyle ayrışıyoruz. ===== */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .grain-overlay { opacity: 0.035; }
+}
+
+/* ===== Seçim ve kaydırma çubuğu: marka renkleriyle imzalı küçük dokunuşlar ===== */
+::selection {
+  background: var(--mystic);
+  color: var(--text);
+}
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--brass) var(--surface);
+}
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb {
+  background: var(--brass);
+  border-radius: 10px;
+  border: 2px solid var(--surface);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--brass-soft); }
+
 /* ===== Logo işareti (hilal ay + yıldız, favicon ile tutarlı) ===== */
 .logo-mark {
   display: inline-block;
