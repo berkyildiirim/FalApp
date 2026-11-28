@@ -297,8 +297,12 @@ function falappSupabase() {
 
 // ===== Üyelik / Giriş (Supabase) =====
 (function () {
+  // ===== Not: "sb" yüklenemeyebilir (CDN engellenmiş/ağ sorunu olabilir).
+  // Modalın açılıp kapanması ve sekme geçişi saf arayüz işlemleri olduğu
+  // için "sb" olmasa da çalışmalı; sadece gerçek Supabase çağrıları (giriş,
+  // üyelik, çıkış, oturum durumu) "sb" varlığına bağlı. Böylece bağlantı
+  // sorununda düğme tamamen tepkisiz kalmak yerine kullanıcıya haber verir. =====
   const sb = falappSupabase();
-  if (!sb) return;
 
   const authOpenBtn = document.getElementById("authOpenBtn");
   const authOverlay = document.getElementById("authOverlay");
@@ -428,6 +432,7 @@ function falappSupabase() {
 
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (!sb) { mesajGoster(loginMsg, "Bağlantı kurulamadı, sayfayı yenileyip tekrar dene.", "error"); return; }
     const email = document.getElementById("loginEmail").value.trim();
     if (!emailAlaniniDenetle(loginEmailInput, loginEmailMsg)) return;
     mesajGoster(loginMsg, "Giriş yapılıyor...");
@@ -443,6 +448,7 @@ function falappSupabase() {
 
   signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (!sb) { mesajGoster(signupMsg, "Bağlantı kurulamadı, sayfayı yenileyip tekrar dene.", "error"); return; }
     const adSoyad = document.getElementById("signupName").value.trim();
     const email = document.getElementById("signupEmail").value.trim();
     const password = document.getElementById("signupPassword").value;
@@ -469,16 +475,19 @@ function falappSupabase() {
   });
 
   logoutBtn.addEventListener("click", async () => {
+    if (!sb) return;
     await sb.auth.signOut();
   });
 
-  sb.auth.onAuthStateChange((_event, session) => {
-    girisDurumunuGuncelle(session);
-  });
+  if (sb) {
+    sb.auth.onAuthStateChange((_event, session) => {
+      girisDurumunuGuncelle(session);
+    });
 
-  sb.auth.getSession().then(({ data }) => {
-    girisDurumunuGuncelle(data.session);
-  });
+    sb.auth.getSession().then(({ data }) => {
+      girisDurumunuGuncelle(data.session);
+    });
+  }
 })();
 
 // ===== Falcılar listesi (Supabase'ten) =====
@@ -486,7 +495,13 @@ function falappSupabase() {
   const falciList = document.getElementById("falciList");
   const falciFilter = document.getElementById("falciFilter");
   const sb = falappSupabase();
-  if (!falciList || !sb) return;
+  if (!falciList) return;
+  if (!sb) {
+    falciList.setAttribute("aria-busy", "false");
+    falciList.innerHTML = '<p class="falci-loading">Şu an falcı listesi yüklenemedi, sayfayı yenileyip tekrar dene.</p>';
+    if (falciFilter) { falciFilter.hidden = true; falciFilter.innerHTML = ""; }
+    return;
+  }
 
   // ===== "Çok tercih edilen" rozeti: rakip platformların çoğu (AskNow'un
   // Top Rated/Elite etiketleri, Mysticsense'in deneyim filtreleri gibi)
@@ -657,7 +672,7 @@ function falappSupabase() {
 (function () {
   const reviewList = document.getElementById("reviewList");
   const sb = falappSupabase();
-  if (!reviewList || !sb) return;
+  if (!reviewList) return;
 
   const reviewWriteBox = document.getElementById("reviewWriteBox");
   const reviewLoginHint = document.getElementById("reviewLoginHint");
@@ -667,6 +682,13 @@ function falappSupabase() {
   const reviewPuan = document.getElementById("reviewPuan");
   const reviewYorum = document.getElementById("reviewYorum");
   const reviewMsg = document.getElementById("reviewMsg");
+
+  if (!sb) {
+    reviewList.setAttribute("aria-busy", "false");
+    reviewList.innerHTML = '<p class="falci-loading">Yorumlar şu an yüklenemedi, sayfayı yenileyip tekrar dene.</p>';
+    if (reviewWriteBox) reviewWriteBox.hidden = true;
+    return;
+  }
 
   let mevcutOturum = null;
 
