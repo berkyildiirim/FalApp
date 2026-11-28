@@ -1833,3 +1833,37 @@ section h2 {
   .floating-cta { transition: opacity 0.2s ease; }
   .floating-cta-ring { animation: none; opacity: 0; }
 }
+
+/* ===== Kaydırma açılışı: bölümler, sayfayı aşağı kaydırdıkça yavaşça
+   belirir — "falın açılması" hissiyle örtüşen bir kaydırma ritmi. Yalnızca
+   JavaScript çalışıyorsa devreye girer (html.js-reveal), bu yüzden JS
+   kapalıyken ya da gözlemci kurulamadan önce içerik zaten tam görünür
+   kalır — hiçbir bölüm JS'e bağımlı olarak görünmez durumda takılmaz
+   (Kas 2026). ===== */
+html.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(.2,.7,.2,1);
+}
+html.js-reveal .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.js-reveal .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ===== SSS: diğer etkileşimli öğelerle (falcı kartı, burç butonu, güven
+   rozetleri) aynı hover dilini SSS satırlarına da taşır — öncesinde
+   üstüne gelince hiçbir geri bildirim vermiyordu (Kas 2026). ===== */
+.faq-item summary {
+  transition: color 0.15s ease;
+}
+.faq-item summary:hover,
+.faq-item summary:focus-visible {
+  color: var(--brass-soft);
+}

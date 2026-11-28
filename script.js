@@ -206,6 +206,40 @@ function tarihAnahtari() {
   });
 })();
 
+// ===== Kaydırma açılışı: "reveal" sınıflı bölümler görünür alana girince
+// yumuşakça belirir (bkz. style.css html.js-reveal .reveal). Bir bölüm
+// hiç kesişmezse (ör. çok kısa sayfa, ya da gözlemci kurulamazsa) diye
+// kısa bir süre sonra kalan tüm reveal'ları da görünür yapan bir güvenlik
+// ağı var — hiçbir içerik JS yüzünden kalıcı olarak gizli kalmasın. =====
+(function () {
+  const revealEl = document.querySelectorAll(".reveal");
+  if (revealEl.length === 0) return;
+
+  if (!("IntersectionObserver" in window)) {
+    revealEl.forEach((el) => el.classList.add("is-visible"));
+    return;
+  }
+
+  const gozlemci = new IntersectionObserver(
+    (girdiler, obs) => {
+      girdiler.forEach((g) => {
+        if (g.isIntersecting) {
+          g.target.classList.add("is-visible");
+          obs.unobserve(g.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -8% 0px" }
+  );
+  revealEl.forEach((el) => gozlemci.observe(el));
+
+  // Güvenlik ağı: 4 saniye sonra hâlâ görünür olmamış bölüm kalmışsa
+  // (beklenmedik bir durum yüzünden) doğrudan görünür yap.
+  setTimeout(() => {
+    revealEl.forEach((el) => el.classList.add("is-visible"));
+  }, 4000);
+})();
+
 // ===== Yüzen WhatsApp CTA'sı: hero geçildikten sonra belirir =====
 (function () {
   const cta = document.getElementById("floatingCta");
