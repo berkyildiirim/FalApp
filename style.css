@@ -1346,7 +1346,11 @@ section h2 {
 }
 .chat-out {
   align-self: flex-end;
-  background: var(--mystic);
+  /* --mystic üstünde --text yalnızca ~4.3:1 kontrast veriyordu (WCAG AA
+     metin eşiği 4.5:1); baloncuğa özel biraz daha koyu bir ton kullanıp
+     okunurluğu güvenceye alıyoruz, marka rengi aynı kalıyor (Kas 2026). */
+  background: #9b465c;
+  background: color-mix(in srgb, var(--mystic) 82%, var(--bg) 18%);
   border: 1px solid var(--mystic-soft);
   border-bottom-right-radius: 4px;
   color: var(--text);
@@ -1501,6 +1505,8 @@ section h2 {
 
 /* ===== Yorum özeti: gerçek veriden puan dağılımı (ortalama + 5-1 yıldız çubukları) ===== */
 .review-summary {
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-wrap: wrap;
   gap: 22px 36px;
@@ -1511,6 +1517,19 @@ section h2 {
   padding: 22px 24px;
   margin-bottom: 18px;
   animation: belirme 0.5s ease;
+}
+/* İmza pirinç-mistik-nazar gradyan şeridi: sayfadaki diğer öne çıkan
+   kutularla (hero kartı, fiyat kutusu, burç sonucu, giriş modalı) aynı
+   görsel imzayı, buraya da taşıyoruz — yorum özeti de bir "öne çıkan
+   kutu" (Kas 2026). */
+.review-summary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--brass), var(--mystic-soft), var(--nazar-blue));
 }
 .review-summary-score {
   display: flex;
