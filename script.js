@@ -504,7 +504,7 @@ function falappSupabase() {
       ? '<span class="dot dot-live"></span> Müsait'
       : '<span class="dot dot-busy"></span> ' + (f.bekleme_notu || "Meşgul");
     const topRozetHtml = cokTercihEdilenMi(f)
-      ? '<span class="falci-top-badge">✦ Çok tercih edilen</span>'
+      ? '<span class="falci-top-badge" title="4.8 ve üzeri puan, en az 15 gerçek yorum">✦ Çok tercih edilen</span>'
       : "";
 
     const row = document.createElement("div");
